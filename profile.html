@@ -1,0 +1,580 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>My Profile – ListHub</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Outfit:wght@400;600;700;800;900&display=swap"
+        rel="stylesheet" />
+    <link rel="stylesheet" href="styles.css" />
+    <style>
+        *,
+        *::before,
+        *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background: #080C12;
+            font-family: 'Inter', sans-serif;
+            color: #E8F4F0;
+            min-height: 100vh;
+            padding-top: 88px;
+        }
+
+        /* ── Navbar (same as index) ── */
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 999;
+            background: rgba(8, 12, 18, 0.85);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+        }
+
+        .nav-inner {
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 0 24px;
+            height: 68px;
+            display: flex;
+            align-items: center;
+            gap: 24px;
+        }
+
+        .nav-logo {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-family: 'Outfit', sans-serif;
+            font-weight: 800;
+            font-size: 20px;
+            color: #E8F4F0;
+            text-decoration: none;
+            flex-shrink: 0;
+        }
+
+        .logo-icon {
+            font-size: 24px;
+            background: linear-gradient(135deg, #10B981, #34D399);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .nav-back {
+            margin-left: auto;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 18px;
+            border-radius: 10px;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            color: #7FA99A;
+            font-size: 14px;
+            font-weight: 500;
+            text-decoration: none;
+            transition: all 0.2s;
+        }
+
+        .nav-back:hover {
+            border-color: rgba(16, 185, 129, 0.4);
+            color: #10B981;
+        }
+
+        /* ── Page ── */
+        .page-wrap {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 40px 24px 80px;
+        }
+
+        .page-header {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            margin-bottom: 36px;
+        }
+
+        .big-avatar {
+            width: 72px;
+            height: 72px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #10B981, #34D399);
+            color: #040D08;
+            font-weight: 900;
+            font-size: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            box-shadow: 0 8px 30px rgba(16, 185, 129, 0.3);
+        }
+
+        .page-title {
+            font-family: 'Outfit', sans-serif;
+            font-size: 28px;
+            font-weight: 800;
+            letter-spacing: -0.5px;
+        }
+
+        .page-sub {
+            font-size: 14px;
+            color: #7FA99A;
+            margin-top: 4px;
+        }
+
+        /* ── Card ── */
+        .card {
+            background: #162030;
+            border: 1px solid rgba(255, 255, 255, 0.07);
+            border-radius: 20px;
+            overflow: hidden;
+            margin-bottom: 20px;
+        }
+
+        .card-header {
+            padding: 18px 24px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+            font-size: 12px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: #7FA99A;
+        }
+
+        .card-body {
+            padding: 24px;
+            display: flex;
+            flex-direction: column;
+            gap: 18px;
+        }
+
+        /* ── Field ── */
+        .field label {
+            display: block;
+            font-size: 12px;
+            font-weight: 600;
+            color: #7FA99A;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 7px;
+        }
+
+        .field .hint {
+            font-size: 11px;
+            color: #4A6B60;
+            margin-top: 5px;
+        }
+
+        .input-wrap {
+            display: flex;
+            align-items: center;
+            background: #0E1520;
+            border: 1.5px solid rgba(255, 255, 255, 0.07);
+            border-radius: 12px;
+            transition: border-color 0.2s;
+        }
+
+        .input-wrap:focus-within {
+            border-color: #10B981;
+            box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.1);
+        }
+
+        .input-wrap.readonly {
+            opacity: 0.55;
+            pointer-events: none;
+        }
+
+        .input-wrap input {
+            flex: 1;
+            background: transparent;
+            border: none;
+            outline: none;
+            color: #E8F4F0;
+            font-size: 14px;
+            font-family: 'Inter', sans-serif;
+            padding: 13px 16px;
+        }
+
+        .input-wrap input::placeholder {
+            color: #4A6B60;
+        }
+
+        .field-icon {
+            padding: 0 14px;
+            font-size: 16px;
+            flex-shrink: 0;
+        }
+
+        .eye-btn {
+            padding: 0 14px;
+            background: none;
+            border: none;
+            color: #4A6B60;
+            cursor: pointer;
+            font-size: 15px;
+        }
+
+        /* ── Badge ── */
+        .verified-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            background: rgba(16, 185, 129, 0.1);
+            border: 1px solid rgba(16, 185, 129, 0.25);
+            color: #10B981;
+            font-size: 11px;
+            font-weight: 600;
+            padding: 2px 10px;
+            border-radius: 100px;
+            margin-left: 8px;
+        }
+
+        /* ── Buttons ── */
+        .save-btn {
+            width: 100%;
+            padding: 14px;
+            background: linear-gradient(135deg, #10B981, #34D399);
+            color: #040D08;
+            border: none;
+            border-radius: 12px;
+            font-size: 15px;
+            font-weight: 800;
+            font-family: 'Outfit', sans-serif;
+            cursor: pointer;
+            transition: all 0.25s;
+            box-shadow: 0 6px 24px rgba(16, 185, 129, 0.28);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .save-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 32px rgba(16, 185, 129, 0.42);
+        }
+
+        .save-btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .spinner {
+            display: none;
+            width: 18px;
+            height: 18px;
+            border: 2.5px solid rgba(4, 13, 8, 0.3);
+            border-top-color: #040D08;
+            border-radius: 50%;
+            animation: spin 0.65s linear infinite;
+        }
+
+        @keyframes spin {
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        /* ── Toast ── */
+        .toast {
+            position: fixed;
+            bottom: 32px;
+            left: 50%;
+            transform: translateX(-50%) translateY(20px);
+            background: #162030;
+            border: 1px solid rgba(16, 185, 129, 0.3);
+            color: #10B981;
+            font-size: 14px;
+            font-weight: 600;
+            padding: 12px 24px;
+            border-radius: 100px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
+            opacity: 0;
+            transition: all 0.3s;
+            pointer-events: none;
+            z-index: 9999;
+            white-space: nowrap;
+        }
+
+        .toast.show {
+            opacity: 1;
+            transform: translateX(-50%) translateY(0);
+        }
+
+        .toast.err {
+            border-color: rgba(239, 68, 68, 0.3);
+            color: #EF4444;
+        }
+
+        /* Loading state */
+        .skeleton {
+            background: linear-gradient(90deg, #162030 25%, #1C2A3E 50%, #162030 75%);
+            background-size: 200% 100%;
+            animation: shimmer 1.5s infinite;
+            border-radius: 8px;
+            height: 20px;
+        }
+
+        @keyframes shimmer {
+            0% {
+                background-position: 200% 0;
+            }
+
+            100% {
+                background-position: -200% 0;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Navbar -->
+    <nav class="navbar">
+        <div class="nav-inner">
+            <a href="index.html" class="nav-logo">
+                <span class="logo-icon">⬡</span>
+                ListHub
+            </a>
+            <a href="index.html" class="nav-back">← Back to Home</a>
+        </div>
+    </nav>
+
+    <div class="page-wrap">
+
+        <!-- Header -->
+        <div class="page-header">
+            <div class="big-avatar" id="bigAvatar">…</div>
+            <div>
+                <div class="page-title" id="headerName">Loading…</div>
+                <div class="page-sub" id="headerEmail"></div>
+            </div>
+        </div>
+
+        <!-- Personal Info -->
+        <div class="card">
+            <div class="card-header">Personal Information</div>
+            <div class="card-body">
+
+                <div class="field">
+                    <label for="editName">Full Name</label>
+                    <div class="input-wrap">
+                        <input type="text" id="editName" placeholder="Your full name" autocomplete="name" />
+                    </div>
+                </div>
+
+                <div class="field">
+                    <label>Email Address <span class="verified-badge">✓ Verified</span></label>
+                    <div class="input-wrap readonly">
+                        <input type="email" id="editEmail" placeholder="Loading…" readonly />
+                    </div>
+                    <div class="hint">Email cannot be changed here. Contact support if needed.</div>
+                </div>
+
+                <div class="field">
+                    <label for="editPhone">Phone Number <span
+                            style="text-transform:none;font-weight:400;letter-spacing:0;font-size:11px;color:#4A6B60;">(optional)</span></label>
+                    <div class="input-wrap">
+                        <input type="tel" id="editPhone" placeholder="+1 (555) 000-0000" autocomplete="tel" />
+                    </div>
+                </div>
+
+                <button class="save-btn" id="saveInfoBtn" onclick="saveInfo()">
+                    <div class="spinner" id="infoSpin"></div>
+                    <span id="infoText">Save Changes</span>
+                </button>
+            </div>
+        </div>
+
+        <!-- Change Password -->
+        <div class="card">
+            <div class="card-header">Change Password</div>
+            <div class="card-body">
+
+                <div class="field">
+                    <label for="newPass">New Password</label>
+                    <div class="input-wrap">
+                        <input type="password" id="newPass" placeholder="Min. 8 characters"
+                            oninput="checkPassStrength(this.value)" />
+                        <button class="eye-btn" onclick="toggleEye('newPass','e1o','e1c')" type="button">
+                            <span id="e1o">👁</span><span id="e1c" style="display:none">🙈</span>
+                        </button>
+                    </div>
+                    <div style="display:flex;gap:4px;margin-top:8px;align-items:center;">
+                        <div style="flex:1;height:3px;border-radius:2px;background:rgba(255,255,255,0.07);transition:background 0.3s;"
+                            id="ps1"></div>
+                        <div style="flex:1;height:3px;border-radius:2px;background:rgba(255,255,255,0.07);transition:background 0.3s;"
+                            id="ps2"></div>
+                        <div style="flex:1;height:3px;border-radius:2px;background:rgba(255,255,255,0.07);transition:background 0.3s;"
+                            id="ps3"></div>
+                        <div style="flex:1;height:3px;border-radius:2px;background:rgba(255,255,255,0.07);transition:background 0.3s;"
+                            id="ps4"></div>
+                        <span style="font-size:11px;color:rgba(255,255,255,0.3);margin-left:8px;min-width:48px;"
+                            id="psLabel"></span>
+                    </div>
+                </div>
+
+                <div class="field">
+                    <label for="confirmPass">Confirm New Password</label>
+                    <div class="input-wrap">
+                        <input type="password" id="confirmPass" placeholder="Re-enter new password" />
+                        <button class="eye-btn" onclick="toggleEye('confirmPass','e2o','e2c')" type="button">
+                            <span id="e2o">👁</span><span id="e2c" style="display:none">🙈</span>
+                        </button>
+                    </div>
+                </div>
+
+                <button class="save-btn" id="savePassBtn" onclick="savePassword()"
+                    style="background:linear-gradient(135deg,#1C2A3E,#243548);color:#E8F4F0;box-shadow:none;border:1px solid rgba(255,255,255,0.08);">
+                    <div class="spinner" id="passSpin"></div>
+                    <span id="passText">Update Password</span>
+                </button>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Toast -->
+    <div class="toast" id="toast"></div>
+
+    <script type="module">
+        import { auth, db, onAuthChange, logOut } from './firebase.js';
+        import { updateProfile, updatePassword } from 'https://www.gstatic.com/firebasejs/10.11.0/firebase-auth.js';
+        import { doc, getDoc, setDoc, serverTimestamp } from 'https://www.gstatic.com/firebasejs/10.11.0/firebase-firestore.js';
+
+        /* ── Redirect if not logged in ── */
+        onAuthChange(async (user) => {
+            if (!user) { window.location.href = 'login.html'; return; }
+            await loadProfile(user);
+        });
+
+        /* ── Load profile from Firestore ── */
+        async function loadProfile(user) {
+            const name = user.displayName || '';
+            const email = user.email || '';
+            const initial = (name ? name[0] : email[0] || 'U').toUpperCase();
+
+            document.getElementById('bigAvatar').textContent = initial;
+            document.getElementById('headerName').textContent = name || email.split('@')[0];
+            document.getElementById('headerEmail').textContent = email;
+            document.getElementById('editEmail').value = email;
+            document.getElementById('editName').value = name;
+
+            // Load extra data from Firestore
+            try {
+                const snap = await getDoc(doc(db, 'users', user.uid));
+                if (snap.exists()) {
+                    const data = snap.data();
+                    if (data.phone) document.getElementById('editPhone').value = data.phone;
+                }
+            } catch (e) { /* Firestore not yet set up — silent fail */ }
+        }
+
+        /* ── Save personal info ── */
+        window.saveInfo = async () => {
+            const user = auth.currentUser;
+            if (!user) return;
+            const name = document.getElementById('editName').value.trim();
+            const phone = document.getElementById('editPhone').value.trim();
+            if (!name) { showToast('Please enter your name.', true); return; }
+
+            setLoading('saveInfoBtn', 'infoSpin', 'infoText', true);
+            try {
+                await updateProfile(user, { displayName: name });
+                await setDoc(doc(db, 'users', user.uid), {
+                    name, email: user.email, phone,
+                    updatedAt: serverTimestamp()
+                }, { merge: true });
+
+                // Update header
+                document.getElementById('headerName').textContent = name;
+                document.getElementById('bigAvatar').textContent = name[0].toUpperCase();
+                showToast('✓ Profile updated successfully!');
+            } catch (err) {
+                showToast('Error: ' + err.message, true);
+            } finally {
+                setLoading('saveInfoBtn', 'infoSpin', 'infoText', false, 'Save Changes');
+            }
+        };
+
+        /* ── Save password ── */
+        window.savePassword = async () => {
+            const user = auth.currentUser;
+            if (!user) return;
+            const np = document.getElementById('newPass').value;
+            const cp = document.getElementById('confirmPass').value;
+            if (np.length < 8) { showToast('Password must be at least 8 characters.', true); return; }
+            if (np !== cp) { showToast('Passwords do not match.', true); return; }
+
+            setLoading('savePassBtn', 'passSpin', 'passText', true);
+            try {
+                await updatePassword(user, np);
+                document.getElementById('newPass').value = '';
+                document.getElementById('confirmPass').value = '';
+                ['ps1', 'ps2', 'ps3', 'ps4'].forEach(id => document.getElementById(id).style.background = 'rgba(255,255,255,0.07)');
+                document.getElementById('psLabel').textContent = '';
+                showToast('✓ Password updated!');
+            } catch (err) {
+                const msgs = {
+                    'auth/requires-recent-login': 'Please log out and log back in before changing your password.',
+                    'auth/weak-password': 'Password is too weak.'
+                };
+                showToast(msgs[err.code] || err.message, true);
+            } finally {
+                setLoading('savePassBtn', 'passSpin', 'passText', false, 'Update Password');
+            }
+        };
+
+        /* ── Helpers ── */
+        function setLoading(btnId, spinId, textId, on, offLabel) {
+            document.getElementById(btnId).disabled = on;
+            document.getElementById(spinId).style.display = on ? 'block' : 'none';
+            if (!on) document.getElementById(textId).textContent = offLabel;
+        }
+
+        function showToast(msg, isErr = false) {
+            const t = document.getElementById('toast');
+            t.textContent = msg;
+            t.className = 'toast' + (isErr ? ' err' : '');
+            t.classList.add('show');
+            setTimeout(() => t.classList.remove('show'), 3500);
+        }
+
+        window.toggleEye = (id, openId, closeId) => {
+            const inp = document.getElementById(id);
+            const isPass = inp.type === 'password';
+            inp.type = isPass ? 'text' : 'password';
+            document.getElementById(openId).style.display = isPass ? 'none' : 'inline';
+            document.getElementById(closeId).style.display = isPass ? 'inline' : 'none';
+        };
+
+        window.checkPassStrength = (v) => {
+            let score = 0;
+            if (v.length >= 8) score++;
+            if (/[A-Z]/.test(v)) score++;
+            if (/[0-9]/.test(v)) score++;
+            if (/[^A-Za-z0-9]/.test(v)) score++;
+            const cols = ['', '#EF4444', '#F59E0B', '#10B981', '#34D399'];
+            const words = ['', 'Weak', 'Fair', 'Good', 'Strong 💪'];
+            for (let i = 1; i <= 4; i++)
+                document.getElementById('ps' + i).style.background = i <= score ? cols[score] : 'rgba(255,255,255,0.07)';
+            const lbl = document.getElementById('psLabel');
+            lbl.textContent = v.length > 0 ? words[score] : '';
+            lbl.style.color = cols[score] || 'rgba(255,255,255,0.3)';
+        };
+    </script>
+
+</body>
+
+</html>
