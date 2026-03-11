@@ -9,9 +9,8 @@
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Outfit:wght@400;500;600;700;800;900&display=swap"
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Outfit:wght@400;600;700;800;900&display=swap"
         rel="stylesheet" />
-    <link rel="stylesheet" href="styles.css" />
     <style>
         *,
         *::before,
@@ -26,414 +25,181 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            background: #0a0d1a;
-            font-family: var(--font, 'Inter', sans-serif);
-            color: #fff;
+            background: #080C12;
+            font-family: 'Inter', sans-serif;
+            color: #E8F4F0;
             padding: 40px 20px;
         }
 
-        /* ─── LEFT PANEL ─── */
-        .left-panel {
-            width: 420px;
-            flex-shrink: 0;
-            position: relative;
-            overflow: hidden;
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-            padding: 48px 44px;
-            background: linear-gradient(160deg, #0d1117 0%, #111827 100%);
+        .card {
+            width: 100%;
+            max-width: 480px;
+            background: #162030;
+            border: 1px solid rgba(255, 255, 255, 0.07);
+            border-radius: 24px;
+            padding: 40px 36px;
+            box-shadow: 0 24px 60px rgba(0, 0, 0, 0.5);
         }
 
-        .lp-grid {
-            position: absolute;
-            inset: 0;
-            background-image:
-                linear-gradient(rgba(20, 255, 200, 0.04) 1px, transparent 1px),
-                linear-gradient(90deg, rgba(20, 255, 200, 0.04) 1px, transparent 1px);
-            background-size: 40px 40px;
-        }
-
-        .lp-orb {
-            position: absolute;
-            border-radius: 50%;
-            filter: blur(70px);
-            pointer-events: none;
-            animation: orbFloat 8s ease-in-out infinite;
-        }
-
-        .lp-orb-1 {
-            width: 300px;
-            height: 300px;
-            background: radial-gradient(circle, rgba(20, 255, 200, 0.22), transparent);
-            top: -80px;
-            left: -60px;
-            animation-delay: 0s;
-        }
-
-        .lp-orb-2 {
-            width: 260px;
-            height: 260px;
-            background: radial-gradient(circle, rgba(108, 99, 255, 0.2), transparent);
-            bottom: 100px;
-            right: -60px;
-            animation-delay: -3s;
-        }
-
-        .lp-orb-3 {
-            width: 200px;
-            height: 200px;
-            background: radial-gradient(circle, rgba(255, 107, 107, 0.12), transparent);
-            bottom: -40px;
-            left: 40px;
-            animation-delay: -6s;
-        }
-
-        @keyframes orbFloat {
-
-            0%,
-            100% {
-                transform: translate(0, 0);
-            }
-
-            33% {
-                transform: translate(15px, -20px);
-            }
-
-            66% {
-                transform: translate(-10px, 15px);
-            }
-        }
-
-        .lp-top {
-            position: relative;
-            z-index: 1;
-        }
-
-        .lp-logo {
+        .logo {
             display: flex;
             align-items: center;
-            gap: 10px;
+            gap: 8px;
             font-family: 'Outfit', sans-serif;
             font-weight: 800;
-            font-size: 24px;
-            color: #fff;
+            font-size: 20px;
+            color: #E8F4F0;
             text-decoration: none;
-            margin-bottom: 56px;
+            margin-bottom: 28px;
         }
 
-        .lp-logo-icon {
-            width: 38px;
-            height: 38px;
-            border-radius: 10px;
-            background: linear-gradient(135deg, #14FFC8, #6C63FF);
+        .logo-icon {
+            width: 32px;
+            height: 32px;
+            background: linear-gradient(135deg, #10B981, #34D399);
+            border-radius: 8px;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 20px;
+            font-size: 16px;
         }
 
-        .lp-heading {
+        h1 {
             font-family: 'Outfit', sans-serif;
-            font-size: clamp(26px, 3vw, 36px);
-            font-weight: 900;
-            line-height: 1.15;
-            color: #fff;
+            font-size: 26px;
+            font-weight: 800;
+            margin-bottom: 6px;
+            letter-spacing: -0.5px;
+        }
+
+        .subtitle {
+            font-size: 14px;
+            color: #7FA99A;
+            margin-bottom: 28px;
+        }
+
+        /* ── Fields ── */
+        .field {
             margin-bottom: 16px;
         }
 
-        .lp-heading em {
-            font-style: normal;
-            color: #14FFC8;
-        }
-
-        .lp-desc {
-            font-size: 14px;
-            color: rgba(255, 255, 255, 0.45);
-            line-height: 1.7;
-        }
-
-        .lp-features {
-            position: relative;
-            z-index: 1;
-            display: flex;
-            flex-direction: column;
-            gap: 14px;
-        }
-
-        .lp-feat {
-            display: flex;
-            align-items: center;
-            gap: 14px;
-            padding: 14px 16px;
-            background: rgba(255, 255, 255, 0.04);
-            border: 1px solid rgba(255, 255, 255, 0.06);
-            border-radius: 14px;
-            backdrop-filter: blur(10px);
-            transition: all 0.3s;
-        }
-
-        .lp-feat:hover {
-            background: rgba(20, 255, 200, 0.06);
-            border-color: rgba(20, 255, 200, 0.15);
-        }
-
-        .lp-feat-icon {
-            width: 36px;
-            height: 36px;
-            border-radius: 9px;
-            flex-shrink: 0;
-            background: linear-gradient(135deg, rgba(20, 255, 200, 0.15), rgba(108, 99, 255, 0.15));
-            border: 1px solid rgba(20, 255, 200, 0.2);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 17px;
-        }
-
-        .lp-feat-text {
-            font-size: 13px;
-            color: rgba(255, 255, 255, 0.65);
-            line-height: 1.4;
-        }
-
-        .lp-feat-text strong {
-            color: #fff;
+        label {
             display: block;
-            font-size: 13px;
-            margin-bottom: 2px;
-        }
-
-        .lp-bottom {
-            position: relative;
-            z-index: 1;
-        }
-
-        .lp-login-prompt {
-            font-size: 13px;
-            color: rgba(255, 255, 255, 0.35);
-        }
-
-        .lp-login-prompt a {
-            color: #14FFC8;
+            font-size: 12px;
             font-weight: 600;
-            text-decoration: none;
-        }
-
-        .lp-login-prompt a:hover {
-            text-decoration: underline;
-        }
-
-        /* ─── RIGHT PANEL ─── */
-        .right-panel {
-            flex: 1;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            padding: 48px 40px;
-            background: #0d1117;
-            overflow-y: auto;
-        }
-
-        .form-shell {
-            width: 100%;
-            max-width: 440px;
-        }
-
-        /* Step dots */
-        .step-dots {
-            display: flex;
-            align-items: center;
-            gap: 6px;
-            margin-bottom: 36px;
-        }
-
-        .step-dot {
-            height: 4px;
-            border-radius: 2px;
-            background: rgba(255, 255, 255, 0.1);
-            transition: all 0.4s;
-        }
-
-        .step-dot.active {
-            background: #14FFC8;
-            width: 28px;
-        }
-
-        .step-dot:not(.active) {
-            width: 14px;
-        }
-
-        .form-title {
-            font-family: 'Outfit', sans-serif;
-            font-size: 28px;
-            font-weight: 900;
-            color: #fff;
+            color: #7FA99A;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
             margin-bottom: 6px;
         }
 
-        .form-sub {
-            font-size: 13px;
-            color: rgba(255, 255, 255, 0.35);
-            margin-bottom: 36px;
-        }
-
-        /* Input groups – underline style */
-        .igroup {
-            margin-bottom: 22px;
-        }
-
-        .igroup label {
-            display: block;
-            font-size: 11px;
-            font-weight: 700;
-            letter-spacing: 0.08em;
-            text-transform: uppercase;
-            color: rgba(255, 255, 255, 0.35);
-            margin-bottom: 8px;
-        }
-
-        .igroup label .opt-badge {
-            font-size: 10px;
-            font-weight: 500;
-            letter-spacing: 0;
+        .opt-badge {
             text-transform: none;
-            color: rgba(255, 255, 255, 0.2);
-            margin-left: 6px;
+            font-weight: 400;
+            letter-spacing: 0;
+            color: #4A6B60;
+            font-size: 11px;
         }
 
-        .input-row {
-            position: relative;
+        .input-wrap {
             display: flex;
             align-items: center;
-            border-bottom: 1.5px solid rgba(255, 255, 255, 0.1);
-            transition: border-color 0.25s;
+            background: #0E1520;
+            border: 1.5px solid rgba(255, 255, 255, 0.07);
+            border-radius: 12px;
+            transition: border-color 0.2s;
         }
 
-        .input-row:focus-within {
-            border-color: #14FFC8;
+        .input-wrap:focus-within {
+            border-color: #10B981;
+            box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.12);
         }
 
-        .input-row.err {
-            border-color: #FF6B6B !important;
+        .input-wrap.err {
+            border-color: #EF4444;
         }
 
-        .input-row.ok {
-            border-color: #14FFC8;
+        .input-wrap.ok {
+            border-color: #10B981;
         }
 
-        .ifield {
+        .input-wrap input {
             flex: 1;
             background: transparent;
             border: none;
             outline: none;
-            padding: 10px 0;
-            color: #fff;
-            font-size: 15px;
-            font-family: inherit;
+            color: #E8F4F0;
+            font-size: 14px;
+            font-family: 'Inter', sans-serif;
+            padding: 13px 14px;
         }
 
-        .ifield::placeholder {
-            color: rgba(255, 255, 255, 0.2);
+        .input-wrap input::placeholder {
+            color: #4A6B60;
         }
 
-        /* Inline OTP button */
-        .otp-inline-btn {
-            padding: 5px 14px;
-            background: linear-gradient(135deg, #14FFC8, #6C63FF);
-            color: #0a0d1a;
+        .otp-btn {
+            padding: 8px 12px;
+            margin: 4px;
+            background: rgba(16, 185, 129, 0.12);
+            color: #10B981;
             border: none;
-            border-radius: 20px;
-            font-size: 11px;
-            font-weight: 800;
-            font-family: inherit;
+            border-radius: 8px;
+            font-size: 12px;
+            font-weight: 600;
             cursor: pointer;
             white-space: nowrap;
             transition: all 0.2s;
-            letter-spacing: 0.03em;
         }
 
-        .otp-inline-btn:hover {
-            transform: scale(1.05);
-            box-shadow: 0 0 14px rgba(20, 255, 200, 0.35);
+        .otp-btn:hover {
+            background: rgba(16, 185, 129, 0.22);
         }
 
-        .otp-inline-btn:disabled {
+        .otp-btn:disabled {
             opacity: 0.5;
             cursor: not-allowed;
-            transform: none;
         }
 
-        /* Eye toggle */
         .eye-btn {
+            padding: 0 14px;
             background: none;
             border: none;
-            color: rgba(255, 255, 255, 0.3);
+            color: #4A6B60;
             cursor: pointer;
-            padding: 4px;
-            display: flex;
-            align-items: center;
-            transition: color 0.2s;
+            font-size: 16px;
+            line-height: 1;
         }
 
-        .eye-btn:hover {
-            color: rgba(255, 255, 255, 0.7);
-        }
-
-        /* Error / ok messages */
-        .msg {
-            font-size: 11px;
-            margin-top: 5px;
+        .err-msg {
             display: none;
-            align-items: center;
-            gap: 4px;
+            font-size: 12px;
+            color: #EF4444;
+            margin-top: 5px;
         }
 
-        .msg.err-msg {
-            color: #FF6B6B;
+        .err-msg.show {
+            display: block;
         }
 
-        .msg.ok-msg {
-            color: #14FFC8;
-        }
-
-        .msg.show {
-            display: flex;
-        }
-
-        /* OTP digit box */
+        /* ── OTP Panel ── */
         .otp-panel {
             display: none;
-            background: rgba(20, 255, 200, 0.04);
-            border: 1px solid rgba(20, 255, 200, 0.15);
-            border-radius: 14px;
+            background: rgba(16, 185, 129, 0.06);
+            border: 1px solid rgba(16, 185, 129, 0.2);
+            border-radius: 12px;
             padding: 16px;
-            margin-top: 12px;
-            animation: fadeDown 0.3s ease;
+            margin-top: 10px;
         }
 
         .otp-panel.show {
             display: block;
         }
 
-        @keyframes fadeDown {
-            from {
-                opacity: 0;
-                transform: translateY(-8px);
-            }
-
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
         .otp-hint {
             font-size: 12px;
-            color: rgba(20, 255, 200, 0.7);
+            color: #7FA99A;
             margin-bottom: 12px;
-            font-weight: 600;
         }
 
         .otp-digits {
@@ -445,138 +211,138 @@
 
         .otp-digit {
             width: 42px;
-            height: 50px;
-            background: rgba(255, 255, 255, 0.04);
-            border: 1.5px solid rgba(255, 255, 255, 0.08);
+            height: 48px;
+            background: #0E1520;
+            border: 1.5px solid rgba(255, 255, 255, 0.1);
             border-radius: 10px;
-            color: #fff;
+            color: #E8F4F0;
             font-size: 20px;
-            font-weight: 800;
+            font-weight: 700;
             text-align: center;
             outline: none;
-            transition: all 0.2s;
-            font-family: inherit;
+            transition: border-color 0.2s;
         }
 
         .otp-digit:focus {
-            border-color: #14FFC8;
-            background: rgba(20, 255, 200, 0.06);
-            box-shadow: 0 0 0 3px rgba(20, 255, 200, 0.1);
+            border-color: #10B981;
         }
 
-        .otp-row {
+        .otp-actions {
             display: flex;
-            align-items: center;
             justify-content: space-between;
+            align-items: center;
         }
 
-        .otp-resend-btn {
-            font-size: 12px;
-            color: rgba(255, 255, 255, 0.3);
+        .resend-btn {
             background: none;
             border: none;
+            color: #7FA99A;
+            font-size: 12px;
             cursor: pointer;
-            font-family: inherit;
-            transition: color 0.2s;
+            text-decoration: underline;
         }
 
-        .otp-resend-btn:hover {
-            color: #14FFC8;
-        }
-
-        .otp-verify-btn {
+        .verify-btn {
             padding: 8px 18px;
-            background: linear-gradient(135deg, #14FFC8, #6C63FF);
-            color: #0a0d1a;
+            background: #10B981;
+            color: #fff;
             border: none;
             border-radius: 8px;
-            font-size: 12px;
-            font-weight: 800;
+            font-size: 13px;
+            font-weight: 600;
             cursor: pointer;
-            font-family: inherit;
             transition: all 0.2s;
         }
 
-        .otp-verify-btn:hover {
-            transform: translateY(-1px);
-            box-shadow: 0 4px 14px rgba(20, 255, 200, 0.3);
+        .verify-btn:hover {
+            background: #059669;
         }
 
-        .otp-done {
+        .otp-verified {
             display: none;
-            font-size: 12px;
-            color: #14FFC8;
-            font-weight: 700;
-            align-items: center;
-            gap: 6px;
+            color: #10B981;
+            font-size: 13px;
+            font-weight: 600;
+            text-align: center;
         }
 
-        .otp-done.show {
-            display: flex;
+        .otp-verified.show {
+            display: block;
         }
 
-        /* Strength bar */
-        .strength-track {
+        /* ── Password Strength ── */
+        .strength-bar {
             display: flex;
             gap: 4px;
             margin-top: 8px;
+            align-items: center;
         }
 
-        .s-seg {
-            flex: 1;
+        .strength-bar .seg {
             height: 3px;
+            flex: 1;
             border-radius: 2px;
             background: rgba(255, 255, 255, 0.07);
-            transition: all 0.3s;
+            transition: background 0.3s;
         }
 
-        .s-txt {
+        .strength-label {
             font-size: 11px;
+            font-weight: 600;
             color: rgba(255, 255, 255, 0.3);
-            margin-top: 4px;
-            height: 14px;
+            margin-left: 8px;
+            min-width: 48px;
         }
 
-        /* Terms */
-        .terms-check {
+        .match-ok {
+            display: none;
+            font-size: 12px;
+            color: #10B981;
+            margin-top: 5px;
+        }
+
+        .match-ok.show {
+            display: block;
+        }
+
+        /* ── Terms ── */
+        .terms {
             display: flex;
             align-items: flex-start;
             gap: 10px;
-            font-size: 12px;
-            color: rgba(255, 255, 255, 0.35);
-            cursor: pointer;
-            line-height: 1.6;
-            margin-bottom: 28px;
+            margin: 20px 0;
+            font-size: 13px;
+            color: #7FA99A;
         }
 
-        .terms-check input {
-            accent-color: #14FFC8;
-            width: 15px;
-            height: 15px;
-            margin-top: 2px;
+        .terms input[type=checkbox] {
+            width: 16px;
+            height: 16px;
+            margin-top: 1px;
+            accent-color: #10B981;
             flex-shrink: 0;
         }
 
-        .terms-check a {
-            color: #14FFC8;
-            text-decoration: none;
+        .terms a {
+            color: #10B981;
             font-weight: 600;
+            text-decoration: none;
         }
 
-        /* Submit */
+        /* ── Submit Button ── */
         .submit-btn {
             width: 100%;
             padding: 15px;
-            background: linear-gradient(135deg, #14FFC8, #6C63FF);
-            color: #0a0d1a;
+            background: linear-gradient(135deg, #10B981, #34D399);
+            color: #040D08;
             border: none;
             border-radius: 14px;
             font-size: 15px;
             font-weight: 800;
-            font-family: inherit;
+            font-family: 'Outfit', sans-serif;
             cursor: pointer;
             transition: all 0.25s;
-            box-shadow: 0 6px 28px rgba(20, 255, 200, 0.25);
+            box-shadow: 0 6px 28px rgba(16, 185, 129, 0.3);
             display: flex;
             align-items: center;
             justify-content: center;
@@ -586,7 +352,7 @@
 
         .submit-btn:hover {
             transform: translateY(-2px);
-            box-shadow: 0 10px 36px rgba(20, 255, 200, 0.4);
+            box-shadow: 0 10px 36px rgba(16, 185, 129, 0.45);
         }
 
         .submit-btn:disabled {
@@ -595,23 +361,40 @@
             transform: none !important;
         }
 
-        .spin {
+        .spinner {
             display: none;
             width: 18px;
             height: 18px;
-            border: 2.5px solid rgba(10, 13, 26, 0.3);
-            border-top-color: #0a0d1a;
+            border: 2.5px solid rgba(4, 13, 8, 0.3);
+            border-top-color: #040D08;
             border-radius: 50%;
-            animation: rot 0.65s linear infinite;
+            animation: spin 0.65s linear infinite;
         }
 
-        @keyframes rot {
+        @keyframes spin {
             to {
                 transform: rotate(360deg);
             }
         }
 
-        /* Success */
+        /* ── Banner ── */
+        .error-banner {
+            display: none;
+            background: rgba(239, 68, 68, 0.1);
+            border: 1px solid rgba(239, 68, 68, 0.3);
+            border-radius: 10px;
+            padding: 10px 14px;
+            font-size: 13px;
+            color: #EF4444;
+            text-align: center;
+            margin-bottom: 14px;
+        }
+
+        .error-banner.show {
+            display: block;
+        }
+
+        /* ── Success ── */
         .success-view {
             display: none;
             flex-direction: column;
@@ -629,13 +412,13 @@
             width: 80px;
             height: 80px;
             border-radius: 50%;
-            background: linear-gradient(135deg, #14FFC8, #6C63FF);
+            background: linear-gradient(135deg, #10B981, #34D399);
             display: flex;
             align-items: center;
             justify-content: center;
             font-size: 36px;
             animation: pop 0.45s cubic-bezier(0.34, 1.56, 0.64, 1) both;
-            box-shadow: 0 0 40px rgba(20, 255, 200, 0.35);
+            box-shadow: 0 0 40px rgba(16, 185, 129, 0.4);
         }
 
         @keyframes pop {
@@ -658,428 +441,432 @@
 
         .success-sub {
             font-size: 14px;
-            color: rgba(255, 255, 255, 0.4);
+            color: #7FA99A;
         }
 
         .success-go {
             padding: 14px 36px;
-            background: linear-gradient(135deg, #14FFC8, #6C63FF);
-            color: #0a0d1a;
+            background: linear-gradient(135deg, #10B981, #34D399);
+            color: #040D08;
             text-decoration: none;
             border-radius: 12px;
             font-weight: 800;
             font-size: 15px;
             transition: all 0.2s;
-            margin-top: 8px;
         }
 
         .success-go:hover {
             transform: translateY(-2px);
         }
 
-        @media (max-width:900px) {
-            .left-panel {
-                display: none;
-            }
-
-            .right-panel {
-                padding: 80px 24px 40px;
-            }
-        }
-
-        @media (max-width:480px) {
-            .form-shell {
-                padding: 0;
-            }
-        }
-
-        body {
+        /* ── Divider + Google ── */
+        .divider {
             display: flex;
-            justify-content: center;
             align-items: center;
-            min-height: 100vh;
-            margin: 0;
+            gap: 12px;
+            margin: 20px 0;
+            color: #4A6B60;
+            font-size: 12px;
+        }
+
+        .divider::before,
+        .divider::after {
+            content: '';
+            flex: 1;
+            height: 1px;
+            background: rgba(255, 255, 255, 0.07);
+        }
+
+        .google-btn {
+            width: 100%;
+            padding: 13px;
+            background: #0E1520;
+            border: 1.5px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            color: #E8F4F0;
+            font-size: 14px;
+            font-weight: 600;
+            font-family: 'Inter', sans-serif;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            transition: all 0.2s;
+            text-decoration: none;
+        }
+
+        .google-btn:hover {
+            border-color: rgba(16, 185, 129, 0.4);
+            background: rgba(16, 185, 129, 0.05);
+        }
+
+        .footer-link {
+            text-align: center;
+            margin-top: 20px;
+            font-size: 13px;
+            color: #7FA99A;
+        }
+
+        .footer-link a {
+            color: #10B981;
+            font-weight: 600;
+            text-decoration: none;
         }
     </style>
 </head>
 
 <body>
 
+    <div class="card">
+        <a href="index.html" class="logo">
+            <div class="logo-icon">⬡</div>
+            ListHub
+        </a>
 
-    <!-- ─── FORM ─── -->
-    <div class="right-panel" style="width:100%;max-width:520px;">
-        <div class="form-shell">
+        <!-- FORM VIEW -->
+        <div id="formView">
+            <h1>Create account</h1>
+            <p class="subtitle">Fill in your details — it only takes 2 minutes.</p>
 
-            <!-- FORM VIEW -->
-            <div id="formView">
+            <!-- Error Banner -->
+            <div class="error-banner" id="errBanner"></div>
 
-                <div class="step-dots">
-                    <div class="step-dot active"></div>
-                    <div class="step-dot active"></div>
-                    <div class="step-dot"></div>
-                    <div class="step-dot"></div>
+            <!-- Full Name -->
+            <div class="field">
+                <label for="fullName">Full Name</label>
+                <div class="input-wrap" id="wrap-name">
+                    <input type="text" id="fullName" placeholder="John Doe" autocomplete="name" />
                 </div>
+                <div class="err-msg" id="nameErr">Please enter your full name.</div>
+            </div>
 
-                <h1 class="form-title">Create account</h1>
-                <p class="form-sub">Fill in your details below — it only takes 2 minutes.</p>
-
-                <!-- Full Name -->
-                <div class="igroup">
-                    <label for="fullName">Full Name</label>
-                    <div class="input-row" id="row-fullName">
-                        <input type="text" id="fullName" class="ifield" placeholder="John Doe" autocomplete="name" />
-                    </div>
-                    <span class="msg err-msg" id="nameErr">Please enter your full name.</span>
+            <!-- Email + OTP -->
+            <div class="field">
+                <label for="email">Email Address</label>
+                <div class="input-wrap" id="wrap-email">
+                    <input type="email" id="email" placeholder="you@example.com" autocomplete="email" />
+                    <button type="button" class="otp-btn" id="emailOtpBtn" onclick="sendEmailOtp()">Get OTP</button>
                 </div>
-
-                <!-- Email + inline Get OTP -->
-                <div class="igroup">
-                    <label for="email">Email Address</label>
-                    <div class="input-row" id="row-email">
-                        <input type="email" id="email" class="ifield" placeholder="you@example.com"
-                            autocomplete="email" />
-                        <button type="button" class="otp-inline-btn" id="sendEmailCodeBtn" onclick="sendEmailOtp()">Get
-                            OTP</button>
+                <div class="err-msg" id="emailErr">Please enter a valid email.</div>
+                <!-- Email OTP Panel -->
+                <div class="otp-panel" id="emailOtpPanel">
+                    <div class="otp-hint">📧 Enter the 6-digit code sent to your email</div>
+                    <div class="otp-digits">
+                        <input class="otp-digit" id="eotp0" maxlength="1" type="text" inputmode="numeric" />
+                        <input class="otp-digit" id="eotp1" maxlength="1" type="text" inputmode="numeric" />
+                        <input class="otp-digit" id="eotp2" maxlength="1" type="text" inputmode="numeric" />
+                        <input class="otp-digit" id="eotp3" maxlength="1" type="text" inputmode="numeric" />
+                        <input class="otp-digit" id="eotp4" maxlength="1" type="text" inputmode="numeric" />
+                        <input class="otp-digit" id="eotp5" maxlength="1" type="text" inputmode="numeric" />
                     </div>
-                    <span class="msg err-msg" id="emailErr">Please enter a valid email address.</span>
-
-                    <!-- Email OTP panel -->
-                    <div class="otp-panel" id="emailOtpBox">
-                        <div class="otp-hint">📧 Enter the 6-digit code sent to your email</div>
-                        <div class="otp-digits">
-                            <input class="otp-digit" maxlength="1" type="text" inputmode="numeric"
-                                onkeyup="emailOtpNext(this,0)" />
-                            <input class="otp-digit" maxlength="1" type="text" inputmode="numeric"
-                                onkeyup="emailOtpNext(this,1)" />
-                            <input class="otp-digit" maxlength="1" type="text" inputmode="numeric"
-                                onkeyup="emailOtpNext(this,2)" />
-                            <input class="otp-digit" maxlength="1" type="text" inputmode="numeric"
-                                onkeyup="emailOtpNext(this,3)" />
-                            <input class="otp-digit" maxlength="1" type="text" inputmode="numeric"
-                                onkeyup="emailOtpNext(this,4)" />
-                            <input class="otp-digit" maxlength="1" type="text" inputmode="numeric"
-                                onkeyup="emailOtpNext(this,5)" />
-                        </div>
-                        <div class="otp-row" id="emailOtpActions">
-                            <button class="otp-resend-btn" onclick="sendEmailOtp()">Resend code</button>
-                            <button class="otp-verify-btn" onclick="verifyEmailOtp()">Verify →</button>
-                        </div>
-                        <div class="otp-done" id="emailOtpVerified">✓ Email verified!</div>
+                    <div class="otp-actions" id="emailOtpActions">
+                        <button class="resend-btn" onclick="sendEmailOtp()">Resend code</button>
+                        <button class="verify-btn" onclick="verifyEmailOtp()">Verify →</button>
                     </div>
-                    <span class="msg err-msg" id="emailVerifyErr">Please verify your email address first.</span>
+                    <div class="otp-verified" id="emailVerified">✓ Email verified!</div>
                 </div>
+                <div class="err-msg" id="emailVerifyErr">Please verify your email first.</div>
+            </div>
 
-                <!-- Phone (optional) + inline Get OTP -->
-                <div class="igroup">
-                    <label for="phone">Phone Number <span class="opt-badge">(optional)</span></label>
-                    <div class="input-row" id="row-phone">
-                        <input type="tel" id="phone" class="ifield" placeholder="+1 (555) 000-0000"
-                            autocomplete="tel" />
-                        <button type="button" class="otp-inline-btn" id="sendPhoneCodeBtn" onclick="sendPhoneOtp()">Get
-                            OTP</button>
-                    </div>
-                    <span class="msg err-msg" id="phoneErr">Please enter a valid phone number (min 7 digits).</span>
-
-                    <!-- Phone OTP panel -->
-                    <div class="otp-panel" id="otpBox">
-                        <div class="otp-hint">📲 Enter the 6-digit code sent to your phone</div>
-                        <div class="otp-digits" id="otpInputs">
-                            <input class="otp-digit" maxlength="1" type="text" inputmode="numeric" pattern="[0-9]"
-                                onkeyup="otpNext(this,0)" />
-                            <input class="otp-digit" maxlength="1" type="text" inputmode="numeric" pattern="[0-9]"
-                                onkeyup="otpNext(this,1)" />
-                            <input class="otp-digit" maxlength="1" type="text" inputmode="numeric" pattern="[0-9]"
-                                onkeyup="otpNext(this,2)" />
-                            <input class="otp-digit" maxlength="1" type="text" inputmode="numeric" pattern="[0-9]"
-                                onkeyup="otpNext(this,3)" />
-                            <input class="otp-digit" maxlength="1" type="text" inputmode="numeric" pattern="[0-9]"
-                                onkeyup="otpNext(this,4)" />
-                            <input class="otp-digit" maxlength="1" type="text" inputmode="numeric" pattern="[0-9]"
-                                onkeyup="otpNext(this,5)" />
-                        </div>
-                        <div class="otp-row otp-actions">
-                            <button class="otp-resend-btn" onclick="resendPhoneOtp()">Resend code</button>
-                            <button class="otp-verify-btn" onclick="verifyOtp()">Verify →</button>
-                        </div>
-                        <div class="otp-done" id="otpVerified">✓ Phone verified!</div>
-                    </div>
+            <!-- Phone (optional) + OTP -->
+            <div class="field">
+                <label for="phone">Phone Number <span class="opt-badge">(optional)</span></label>
+                <div class="input-wrap" id="wrap-phone">
+                    <input type="tel" id="phone" placeholder="+1 (555) 000-0000" autocomplete="tel" />
+                    <button type="button" class="otp-btn" id="phoneOtpBtn" onclick="sendPhoneOtp()">Get OTP</button>
                 </div>
-
-                <!-- Password -->
-                <div class="igroup">
-                    <label for="password">Password</label>
-                    <div class="input-row" id="row-password">
-                        <input type="password" id="password" class="ifield" placeholder="Create a strong password"
-                            autocomplete="new-password" oninput="checkStrength(this.value)" />
-                        <button class="eye-btn" type="button" onclick="toggleVis('password','eye1open','eye1close')"
-                            tabindex="-1">
-                            <svg id="eye1open" width="17" height="17" viewBox="0 0 24 24" fill="none"
-                                stroke="currentColor" stroke-width="2">
-                                <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" />
-                                <circle cx="12" cy="12" r="3" />
-                            </svg>
-                            <svg id="eye1close" width="17" height="17" viewBox="0 0 24 24" fill="none"
-                                stroke="currentColor" stroke-width="2" style="display:none">
-                                <path
-                                    d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24" />
-                                <line x1="1" y1="1" x2="23" y2="23" />
-                            </svg>
-                        </button>
+                <div class="err-msg" id="phoneErr">Enter a valid phone number first.</div>
+                <!-- Phone OTP Panel -->
+                <div class="otp-panel" id="phoneOtpPanel">
+                    <div class="otp-hint">📱 Enter the 6-digit code sent to your phone</div>
+                    <div class="otp-digits">
+                        <input class="otp-digit" id="potp0" maxlength="1" type="text" inputmode="numeric" />
+                        <input class="otp-digit" id="potp1" maxlength="1" type="text" inputmode="numeric" />
+                        <input class="otp-digit" id="potp2" maxlength="1" type="text" inputmode="numeric" />
+                        <input class="otp-digit" id="potp3" maxlength="1" type="text" inputmode="numeric" />
+                        <input class="otp-digit" id="potp4" maxlength="1" type="text" inputmode="numeric" />
+                        <input class="otp-digit" id="potp5" maxlength="1" type="text" inputmode="numeric" />
                     </div>
-                    <div class="strength-track">
-                        <div class="s-seg" id="s1"></div>
-                        <div class="s-seg" id="s2"></div>
-                        <div class="s-seg" id="s3"></div>
-                        <div class="s-seg" id="s4"></div>
+                    <div class="otp-actions" id="phoneOtpActions">
+                        <button class="resend-btn" onclick="sendPhoneOtp()">Resend code</button>
+                        <button class="verify-btn" onclick="verifyPhoneOtp()">Verify →</button>
                     </div>
-                    <div class="s-txt" id="sLabel"></div>
-                    <span class="msg err-msg" id="passErr">Password must be at least 8 characters.</span>
+                    <div class="otp-verified" id="phoneVerified">✓ Phone verified!</div>
                 </div>
+            </div>
 
-                <!-- Confirm Password -->
-                <div class="igroup">
-                    <label for="confirmPass">Confirm Password</label>
-                    <div class="input-row" id="row-confirmPass">
-                        <input type="password" id="confirmPass" class="ifield" placeholder="Re-enter your password"
-                            autocomplete="new-password" oninput="checkPassMatch()" />
-                        <button class="eye-btn" type="button" onclick="toggleVis('confirmPass','eye2open','eye2close')"
-                            tabindex="-1">
-                            <svg id="eye2open" width="17" height="17" viewBox="0 0 24 24" fill="none"
-                                stroke="currentColor" stroke-width="2">
-                                <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" />
-                                <circle cx="12" cy="12" r="3" />
-                            </svg>
-                            <svg id="eye2close" width="17" height="17" viewBox="0 0 24 24" fill="none"
-                                stroke="currentColor" stroke-width="2" style="display:none">
-                                <path
-                                    d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24" />
-                                <line x1="1" y1="1" x2="23" y2="23" />
-                            </svg>
-                        </button>
-                    </div>
-                    <span class="msg err-msg" id="confirmPassErr">Passwords don't match.</span>
-                    <span class="msg ok-msg" id="confirmPassOk">✓ Passwords match.</span>
+            <!-- Password -->
+            <div class="field">
+                <label for="password">Password</label>
+                <div class="input-wrap" id="wrap-pass">
+                    <input type="password" id="password" placeholder="Min. 8 characters"
+                        oninput="checkStrength(this.value)" />
+                    <button type="button" class="eye-btn" onclick="togglePass('password','eye1o','eye1c')">
+                        <span id="eye1o">👁</span><span id="eye1c" style="display:none">🙈</span>
+                    </button>
                 </div>
+                <div class="strength-bar">
+                    <div class="seg" id="s1"></div>
+                    <div class="seg" id="s2"></div>
+                    <div class="seg" id="s3"></div>
+                    <div class="seg" id="s4"></div>
+                    <span class="strength-label" id="sLabel"></span>
+                </div>
+                <div class="err-msg" id="passErr">Password must be at least 8 characters.</div>
+            </div>
 
-                <!-- Terms -->
-                <label class="terms-check">
-                    <input type="checkbox" id="terms" />
-                    <span>I agree to ListHub's <a href="#">Terms of Service</a> and <a href="#">Privacy
-                            Policy</a>.</span>
+            <!-- Confirm Password -->
+            <div class="field">
+                <label for="confirmPass">Confirm Password</label>
+                <div class="input-wrap" id="wrap-confirm">
+                    <input type="password" id="confirmPass" placeholder="Re-enter password" oninput="checkMatch()" />
+                    <button type="button" class="eye-btn" onclick="togglePass('confirmPass','eye2o','eye2c')">
+                        <span id="eye2o">👁</span><span id="eye2c" style="display:none">🙈</span>
+                    </button>
+                </div>
+                <div class="err-msg" id="confirmErr">Passwords do not match.</div>
+                <div class="match-ok" id="matchOk">✓ Passwords match</div>
+            </div>
+
+            <!-- Terms -->
+            <div class="terms">
+                <input type="checkbox" id="terms" />
+                <label for="terms"
+                    style="text-transform:none;letter-spacing:0;font-size:13px;color:#7FA99A;font-weight:400;">
+                    I agree to the <a href="#">Terms of Service</a> and <a href="#">Privacy Policy</a>
                 </label>
-
-                <button class="submit-btn" id="signupBtn" onclick="doSignup()">
-                    <div class="spin" id="spin"></div>
-                    <span id="btnText">Create Free Account →</span>
-                </button>
-
             </div>
 
-            <!-- SUCCESS VIEW -->
-            <div class="success-view" id="successView">
-                <div class="success-ring">🎉</div>
-                <div class="success-title">You're in!</div>
-                <div class="success-sub">Account created. Welcome to ListHub.</div>
-                <a href="index.html" class="success-go">Start Exploring →</a>
-            </div>
+            <!-- Submit -->
+            <button class="submit-btn" id="submitBtn" onclick="doSignup()">
+                <div class="spinner" id="spin"></div>
+                <span id="btnText">Create Free Account 🚀</span>
+            </button>
 
+            <!-- Divider -->
+            <div class="divider">or continue with</div>
+
+            <!-- Google -->
+            <button class="google-btn" onclick="doGoogleSignup()">
+                <svg width="18" height="18" viewBox="0 0 24 24">
+                    <path fill="#4285F4"
+                        d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" />
+                    <path fill="#34A853"
+                        d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" />
+                    <path fill="#FBBC05"
+                        d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l3.66-2.84z" />
+                    <path fill="#EA4335"
+                        d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" />
+                </svg>
+                Continue with Google
+            </button>
+
+            <div class="footer-link">
+                Already have an account? <a href="login.html">Log in →</a>
+            </div>
+        </div>
+
+        <!-- SUCCESS VIEW -->
+        <div class="success-view" id="successView">
+            <div class="success-ring">🎉</div>
+            <div class="success-title">You're in!</div>
+            <div class="success-sub">Account created. Welcome to ListHub.</div>
+            <a href="index.html" class="success-go">Start Exploring →</a>
         </div>
     </div>
 
     <script type="module">
         import { signUpEmail, signInGoogle } from './firebase.js';
 
-        let phoneVerified = false;
-        let emailVerified = false;
+        let emailVerifiedFlag = false;
+        let phoneVerifiedFlag = false;
 
-        /* ── Expose functions to inline HTML onclick handlers ── */
-        window.toggleVis = function (inputId, openId, closeId) {
-            const inp = document.getElementById(inputId);
+        /* ── Helpers ── */
+        function $(id) { return document.getElementById(id); }
+        function showErr(id) { $(id).classList.add('show'); }
+        function hideErr(id) { $(id).classList.remove('show'); }
+        function setWrap(id, state) {
+            const w = $(id);
+            w.classList.remove('err', 'ok');
+            if (state) w.classList.add(state);
+        }
+        function showBanner(msg) {
+            $('errBanner').textContent = msg;
+            $('errBanner').classList.add('show');
+        }
+        function hideBanner() { $('errBanner').classList.remove('show'); }
+        function isEmail(v) { return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v); }
+
+        /* ── Toggle password ── */
+        window.togglePass = (id, openId, closeId) => {
+            const inp = $(id);
             const isPass = inp.type === 'password';
             inp.type = isPass ? 'text' : 'password';
-            document.getElementById(openId).style.display = isPass ? 'none' : 'block';
-            document.getElementById(closeId).style.display = isPass ? 'block' : 'none';
-        };
-
-        /* ── Email OTP ── */
-        window.sendEmailOtp = function () {
-            const email = document.getElementById('email').value.trim();
-            if (!isEmail(email)) { setErr('email', 'emailErr', true); return; }
-            setErr('email', 'emailErr', false);
-            const btn = document.getElementById('sendEmailCodeBtn');
-            btn.textContent = 'Sending…'; btn.disabled = true;
-            setTimeout(() => {
-                btn.textContent = 'Resend'; btn.disabled = false;
-                document.getElementById('emailOtpBox').classList.add('show');
-                emailVerified = false;
-                document.getElementById('emailOtpVerified').classList.remove('show');
-                document.getElementById('emailOtpActions').style.display = 'flex';
-                document.querySelectorAll('#emailOtpBox .otp-digit').forEach(i => { i.value = ''; i.disabled = false; i.style.borderColor = ''; });
-                document.querySelectorAll('#emailOtpBox .otp-digit')[0].focus();
-            }, 1200);
-        };
-
-        window.emailOtpNext = function (el, idx) {
-            const inputs = document.querySelectorAll('#emailOtpBox .otp-digit');
-            if (el.value && idx < 5) inputs[idx + 1].focus();
-            if (event.key === 'Backspace' && !el.value && idx > 0) inputs[idx - 1].focus();
-            const code = Array.from(inputs).map(i => i.value).join('');
-            if (code.length === 6) window.verifyEmailOtp();
-        };
-
-        window.verifyEmailOtp = function () {
-            const inputs = document.querySelectorAll('#emailOtpBox .otp-digit');
-            const code = Array.from(inputs).map(i => i.value).join('');
-            if (code.length < 6) return;
-            inputs.forEach(i => { i.style.borderColor = '#14FFC8'; i.disabled = true; });
-            document.getElementById('emailOtpVerified').classList.add('show');
-            document.getElementById('emailOtpActions').style.display = 'none';
-            document.getElementById('emailVerifyErr').classList.remove('show');
-            emailVerified = true;
+            $(openId).style.display = isPass ? 'none' : 'inline';
+            $(closeId).style.display = isPass ? 'inline' : 'none';
         };
 
         /* ── Password strength ── */
-        window.checkStrength = function (v) {
+        window.checkStrength = (v) => {
             let score = 0;
             if (v.length >= 8) score++;
             if (/[A-Z]/.test(v)) score++;
             if (/[0-9]/.test(v)) score++;
             if (/[^A-Za-z0-9]/.test(v)) score++;
-            const cols = ['', '#FF6B6B', '#FFC947', '#14FFC8', '#6C63FF'];
+            const cols = ['', '#EF4444', '#F59E0B', '#10B981', '#34D399'];
             const words = ['', 'Weak', 'Fair', 'Good', 'Strong 💪'];
             for (let i = 1; i <= 4; i++)
-                document.getElementById('s' + i).style.background = i <= score ? cols[score] : 'rgba(255,255,255,0.07)';
-            const lbl = document.getElementById('sLabel');
-            lbl.textContent = v.length > 0 ? words[score] : '';
-            lbl.style.color = cols[score] || 'rgba(255,255,255,0.3)';
+                $('s' + i).style.background = i <= score ? cols[score] : 'rgba(255,255,255,0.07)';
+            $('sLabel').textContent = v.length > 0 ? words[score] : '';
+            $('sLabel').style.color = cols[score] || 'rgba(255,255,255,0.3)';
         };
 
         /* ── Password match ── */
-        window.checkPassMatch = function () {
-            const p1 = document.getElementById('password').value;
-            const p2 = document.getElementById('confirmPass').value;
-            if (!p2) { hideMsg('confirmPassErr'); hideMsg('confirmPassOk'); return; }
+        window.checkMatch = () => {
+            const p1 = $('password').value;
+            const p2 = $('confirmPass').value;
+            if (!p2) { hideErr('confirmErr'); $('matchOk').classList.remove('show'); return; }
             const match = p1 === p2;
-            document.getElementById('row-confirmPass').classList.toggle('ok', match);
-            document.getElementById('row-confirmPass').classList.toggle('err', !match);
-            toggleMsg('confirmPassErr', !match);
-            toggleMsg('confirmPassOk', match);
+            setWrap('wrap-confirm', match ? 'ok' : 'err');
+            match ? hideErr('confirmErr') : showErr('confirmErr');
+            $('matchOk').classList.toggle('show', match);
         };
 
-        /* ── Phone OTP ── */
-        window.sendPhoneOtp = function () {
-            const phone = document.getElementById('phone').value.trim().replace(/\D/g, '');
-            if (phone.length < 7) { document.getElementById('phoneErr').classList.add('show'); return; }
-            document.getElementById('phoneErr').classList.remove('show');
-            const btn = document.getElementById('sendPhoneCodeBtn');
+        /* ── Email OTP ── */
+        window.sendEmailOtp = () => {
+            const email = $('email').value.trim();
+            if (!isEmail(email)) { setWrap('wrap-email', 'err'); showErr('emailErr'); return; }
+            setWrap('wrap-email', ''); hideErr('emailErr');
+            const btn = $('emailOtpBtn');
             btn.textContent = 'Sending…'; btn.disabled = true;
             setTimeout(() => {
                 btn.textContent = 'Resend'; btn.disabled = false;
-                document.getElementById('otpBox').classList.add('show');
-                phoneVerified = false;
-                document.getElementById('otpVerified').classList.remove('show');
-                document.querySelector('#otpBox .otp-actions').style.display = 'flex';
-                document.querySelectorAll('#otpBox .otp-digit').forEach(i => { i.value = ''; i.disabled = false; i.style.borderColor = ''; });
-                document.querySelectorAll('#otpBox .otp-digit')[0].focus();
+                $('emailOtpPanel').classList.add('show');
+                emailVerifiedFlag = false;
+                $('emailVerified').classList.remove('show');
+                $('emailOtpActions').style.display = 'flex';
+                ['eotp0', 'eotp1', 'eotp2', 'eotp3', 'eotp4', 'eotp5'].forEach(id => { $(id).value = ''; $(id).disabled = false; $(id).style.borderColor = ''; });
+                $('eotp0').focus();
             }, 1200);
         };
-        window.resendPhoneOtp = window.sendPhoneOtp;
-        window.onPhoneInput = function () { };
 
-        window.otpNext = function (el, idx) {
-            const inputs = document.querySelectorAll('#otpBox .otp-digit');
-            if (el.value && idx < 5) inputs[idx + 1].focus();
-            if (event.key === 'Backspace' && !el.value && idx > 0) inputs[idx - 1].focus();
-            const code = Array.from(inputs).map(i => i.value).join('');
-            if (code.length === 6) window.verifyOtp();
+        /* Email OTP digit navigation */
+        ['eotp0', 'eotp1', 'eotp2', 'eotp3', 'eotp4', 'eotp5'].forEach((id, idx) => {
+            $(id).addEventListener('keyup', (e) => {
+                const inputs = ['eotp0', 'eotp1', 'eotp2', 'eotp3', 'eotp4', 'eotp5'];
+                if ($(id).value && idx < 5) $(inputs[idx + 1]).focus();
+                if (e.key === 'Backspace' && !$(id).value && idx > 0) $(inputs[idx - 1]).focus();
+                const code = inputs.map(i => $(i).value).join('');
+                if (code.length === 6) verifyEmailOtp();
+            });
+        });
+
+        window.verifyEmailOtp = function verifyEmailOtp() {
+            const inputs = ['eotp0', 'eotp1', 'eotp2', 'eotp3', 'eotp4', 'eotp5'];
+            const code = inputs.map(i => $(i).value).join('');
+            if (code.length < 6) return;
+            inputs.forEach(id => { $(id).style.borderColor = '#10B981'; $(id).disabled = true; });
+            $('emailVerified').classList.add('show');
+            $('emailOtpActions').style.display = 'none';
+            hideErr('emailVerifyErr');
+            emailVerifiedFlag = true;
         };
 
-        window.verifyOtp = function () {
-            const inputs = document.querySelectorAll('#otpBox .otp-digit');
-            const code = Array.from(inputs).map(i => i.value).join('');
-            if (code.length < 6) { alert('Please enter all 6 digits.'); return; }
-            inputs.forEach(i => { i.style.borderColor = '#14FFC8'; i.disabled = true; });
-            document.getElementById('otpVerified').classList.add('show');
-            document.querySelector('#otpBox .otp-actions').style.display = 'none';
-            phoneVerified = true;
+        /* ── Phone OTP ── */
+        window.sendPhoneOtp = () => {
+            const phone = $('phone').value.trim().replace(/\D/g, '');
+            if (phone.length < 7) { showErr('phoneErr'); return; }
+            hideErr('phoneErr');
+            const btn = $('phoneOtpBtn');
+            btn.textContent = 'Sending…'; btn.disabled = true;
+            setTimeout(() => {
+                btn.textContent = 'Resend'; btn.disabled = false;
+                $('phoneOtpPanel').classList.add('show');
+                phoneVerifiedFlag = false;
+                $('phoneVerified').classList.remove('show');
+                $('phoneOtpActions').style.display = 'flex';
+                ['potp0', 'potp1', 'potp2', 'potp3', 'potp4', 'potp5'].forEach(id => { $(id).value = ''; $(id).disabled = false; $(id).style.borderColor = ''; });
+                $('potp0').focus();
+            }, 1200);
         };
 
-        /* ── Helpers ── */
-        function toggleMsg(id, show) { document.getElementById(id).classList.toggle('show', show); }
-        function hideMsg(id) { document.getElementById(id).classList.remove('show'); }
-        function isEmail(v) { return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v); }
-        function setErr(inputId, errId, show) {
-            const row = document.getElementById('row-' + inputId);
-            if (row) row.classList.toggle('err', show);
-            toggleMsg(errId, show);
-        }
+        ['potp0', 'potp1', 'potp2', 'potp3', 'potp4', 'potp5'].forEach((id, idx) => {
+            $(id).addEventListener('keyup', (e) => {
+                const inputs = ['potp0', 'potp1', 'potp2', 'potp3', 'potp4', 'potp5'];
+                if ($(id).value && idx < 5) $(inputs[idx + 1]).focus();
+                if (e.key === 'Backspace' && !$(id).value && idx > 0) $(inputs[idx - 1]).focus();
+                const code = inputs.map(i => $(i).value).join('');
+                if (code.length === 6) verifyPhoneOtp();
+            });
+        });
 
-        function showBanner(msg) {
-            let banner = document.getElementById('signupBanner');
-            if (!banner) {
-                banner = document.createElement('div');
-                banner.id = 'signupBanner';
-                banner.style.cssText = 'margin-bottom:12px;padding:10px 14px;background:rgba(255,107,107,0.1);border:1px solid rgba(255,107,107,0.3);border-radius:10px;font-size:13px;color:#FF6B6B;text-align:center;';
-                document.getElementById('signupBtn').before(banner);
+        window.verifyPhoneOtp = function verifyPhoneOtp() {
+            const inputs = ['potp0', 'potp1', 'potp2', 'potp3', 'potp4', 'potp5'];
+            const code = inputs.map(i => $(i).value).join('');
+            if (code.length < 6) { alert('Enter all 6 digits.'); return; }
+            inputs.forEach(id => { $(id).style.borderColor = '#10B981'; $(id).disabled = true; });
+            $('phoneVerified').classList.add('show');
+            $('phoneOtpActions').style.display = 'none';
+            phoneVerifiedFlag = true;
+        };
+
+        /* ── Google sign up ── */
+        window.doGoogleSignup = async () => {
+            hideBanner();
+            try {
+                await signInGoogle();
+                $('formView').style.display = 'none';
+                $('successView').classList.add('show');
+            } catch (err) {
+                if (err.code !== 'auth/popup-closed-by-user')
+                    showBanner('Google sign-up failed. Please try again.');
             }
-            banner.textContent = msg;
-        }
+        };
 
-        /* ── Main Submit ── */
-        window.doSignup = async function () {
-            const name = document.getElementById('fullName').value.trim();
-            const email = document.getElementById('email').value.trim();
-            const phone = document.getElementById('phone').value.trim();
-            const pass = document.getElementById('password').value;
-            const pass2 = document.getElementById('confirmPass').value;
-            const agreed = document.getElementById('terms').checked;
+        /* ── Main submit ── */
+        window.doSignup = async () => {
+            hideBanner();
+            const name = $('fullName').value.trim();
+            const email = $('email').value.trim();
+            const phone = $('phone').value.trim();
+            const pass = $('password').value;
+            const pass2 = $('confirmPass').value;
+            const agreed = $('terms').checked;
             let ok = true;
 
-            if (!name) { setErr('fullName', 'nameErr', true); ok = false; } else setErr('fullName', 'nameErr', false);
-            if (!isEmail(email)) { setErr('email', 'emailErr', true); ok = false; } else setErr('email', 'emailErr', false);
-            if (!emailVerified) { document.getElementById('emailVerifyErr').classList.add('show'); ok = false; }
-            else { document.getElementById('emailVerifyErr').classList.remove('show'); }
-            if (pass.length < 8) { setErr('password', 'passErr', true); ok = false; } else setErr('password', 'passErr', false);
-            if (pass !== pass2) { setErr('confirmPass', 'confirmPassErr', true); ok = false; } else setErr('confirmPass', 'confirmPassErr', false);
-            if (phone.replace(/\D/g, '').length >= 7 && !phoneVerified) {
-                alert('Please verify your phone number before continuing.'); ok = false;
+            if (!name) { setWrap('wrap-name', 'err'); showErr('nameErr'); ok = false; } else { setWrap('wrap-name', 'ok'); hideErr('nameErr'); }
+            if (!isEmail(email)) { setWrap('wrap-email', 'err'); showErr('emailErr'); ok = false; } else { setWrap('wrap-email', ''); hideErr('emailErr'); }
+            if (!emailVerifiedFlag) { showErr('emailVerifyErr'); ok = false; } else hideErr('emailVerifyErr');
+            if (pass.length < 8) { setWrap('wrap-pass', 'err'); showErr('passErr'); ok = false; } else { setWrap('wrap-pass', 'ok'); hideErr('passErr'); }
+            if (pass !== pass2) { setWrap('wrap-confirm', 'err'); showErr('confirmErr'); ok = false; } else { setWrap('wrap-confirm', 'ok'); hideErr('confirmErr'); }
+            if (phone.replace(/\D/g, '').length >= 7 && !phoneVerifiedFlag) {
+                showBanner('Please verify your phone number first.'); ok = false;
             }
-            if (!agreed) { alert('Please agree to the Terms of Service to continue.'); return; }
+            if (!agreed) { showBanner('Please agree to the Terms of Service to continue.'); return; }
             if (!ok) return;
 
-            const btn = document.getElementById('signupBtn');
+            /* Loading */
+            const btn = $('submitBtn');
             btn.disabled = true;
-            document.getElementById('spin').style.display = 'block';
-            document.getElementById('btnText').style.display = 'none';
+            $('spin').style.display = 'block';
+            $('btnText').style.display = 'none';
 
             try {
                 await signUpEmail(name, email, pass, phone);
-                document.getElementById('formView').style.display = 'none';
-                document.getElementById('successView').classList.add('show');
+                $('formView').style.display = 'none';
+                $('successView').classList.add('show');
             } catch (err) {
                 btn.disabled = false;
-                document.getElementById('spin').style.display = 'none';
-                document.getElementById('btnText').style.display = 'block';
+                $('spin').style.display = 'none';
+                $('btnText').style.display = 'block';
                 const msgs = {
                     'auth/email-already-in-use': 'An account with this email already exists. Try logging in.',
                     'auth/weak-password': 'Password is too weak — use at least 8 characters.',
-                    'auth/invalid-email': 'That email address is invalid.',
+                    'auth/invalid-email': 'That email address looks invalid.',
                     'auth/network-request-failed': 'Network error — check your connection.'
                 };
                 showBanner(msgs[err.code] || 'Sign up failed: ' + err.message);
-            }
-        };
-
-        /* ── Google Sign Up ── */
-        window.doGoogleSignup = async function () {
-            try {
-                await signInGoogle();
-                document.getElementById('formView').style.display = 'none';
-                document.getElementById('successView').classList.add('show');
-            } catch (err) {
-                if (err.code !== 'auth/popup-closed-by-user') {
-                    showBanner('Google sign-up failed. Please try again.');
-                }
             }
         };
     </script>
