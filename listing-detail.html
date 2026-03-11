@@ -1,0 +1,504 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Listing Detail – ListHub</title>
+    <meta name="description" content="View full listing details on ListHub." />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Outfit:wght@400;500;600;700;800&display=swap"
+        rel="stylesheet" />
+    <link rel="stylesheet" href="styles.css" />
+    <style>
+        .detail-wrap {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 100px 24px 60px;
+            display: grid;
+            grid-template-columns: 1fr 340px;
+            gap: 32px;
+        }
+
+        .detail-main {}
+
+        .detail-gallery {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 20px;
+            overflow: hidden;
+            margin-bottom: 24px;
+        }
+
+        .gallery-hero {
+            font-size: 120px;
+            text-align: center;
+            padding: 60px;
+            background: var(--bg3);
+            min-height: 300px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .detail-body {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 20px;
+            padding: 32px;
+        }
+
+        .detail-tags {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+            margin-bottom: 20px;
+        }
+
+        .detail-tag {
+            font-size: 12px;
+            font-weight: 600;
+            padding: 4px 12px;
+            border-radius: 100px;
+        }
+
+        .detail-title {
+            font-family: var(--font-display);
+            font-size: 30px;
+            font-weight: 800;
+            margin-bottom: 12px;
+            line-height: 1.2;
+        }
+
+        .detail-meta-row {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            flex-wrap: wrap;
+            margin-bottom: 24px;
+        }
+
+        .d-meta {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 14px;
+            color: var(--text-muted);
+        }
+
+        .detail-price {
+            font-family: var(--font-display);
+            font-size: 32px;
+            font-weight: 800;
+            color: var(--text);
+            margin-bottom: 24px;
+        }
+
+        .detail-divider {
+            height: 1px;
+            background: var(--border);
+            margin: 24px 0;
+        }
+
+        .detail-section-title {
+            font-size: 13px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            color: var(--text-muted);
+            margin-bottom: 12px;
+        }
+
+        .detail-desc {
+            font-size: 15px;
+            color: var(--text-muted);
+            line-height: 1.8;
+            white-space: pre-line;
+        }
+
+        .detail-attrs {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 12px;
+        }
+
+        .d-attr {
+            background: var(--bg3);
+            border-radius: 10px;
+            padding: 12px 16px;
+        }
+
+        .d-attr-label {
+            font-size: 11px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            color: var(--text-dim);
+            margin-bottom: 4px;
+        }
+
+        .d-attr-val {
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--text);
+        }
+
+        /* Sidebar */
+        .detail-sidebar {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .contact-card {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 20px;
+            padding: 28px;
+        }
+
+        .contact-card h3 {
+            font-family: var(--font-display);
+            font-size: 18px;
+            font-weight: 700;
+            margin-bottom: 20px;
+        }
+
+        .contact-btn {
+            width: 100%;
+            padding: 14px;
+            border-radius: 12px;
+            font-size: 15px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.2s;
+            margin-bottom: 10px;
+            display: block;
+            text-align: center;
+        }
+
+        .contact-btn-primary {
+            background: linear-gradient(135deg, var(--primary), #A78BFA);
+            color: #fff;
+            border: none;
+            box-shadow: 0 4px 20px rgba(108, 99, 255, 0.3);
+        }
+
+        .contact-btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 30px rgba(108, 99, 255, 0.5);
+        }
+
+        .contact-btn-outline {
+            background: transparent;
+            border: 1px solid var(--border);
+            color: var(--text-muted);
+        }
+
+        .contact-btn-outline:hover {
+            border-color: var(--primary);
+            color: var(--primary);
+            background: var(--primary-light);
+        }
+
+        .contact-reply-form {
+            margin-top: 20px;
+            display: none;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .contact-reply-form.open {
+            display: flex;
+        }
+
+        .safety-card {
+            background: rgba(255, 201, 71, 0.08);
+            border: 1px solid rgba(255, 201, 71, 0.2);
+            border-radius: 16px;
+            padding: 20px;
+        }
+
+        .safety-card h4 {
+            font-size: 13px;
+            font-weight: 700;
+            color: #FFC947;
+            margin-bottom: 10px;
+        }
+
+        .safety-card ul {
+            font-size: 12px;
+            color: var(--text-muted);
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+            line-height: 1.5;
+        }
+
+        .safety-card ul li::before {
+            content: '✓ ';
+            color: #FFC947;
+            font-weight: 700;
+        }
+
+        .similar-card {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 20px;
+        }
+
+        .similar-card h4 {
+            font-size: 13px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            color: var(--text-muted);
+            margin-bottom: 14px;
+        }
+
+        .sim-item {
+            display: flex;
+            gap: 12px;
+            align-items: center;
+            padding: 10px 0;
+            border-bottom: 1px solid var(--border);
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .sim-item:last-child {
+            border-bottom: none;
+        }
+
+        .sim-item:hover {
+            opacity: 0.8;
+        }
+
+        .sim-thumb {
+            width: 46px;
+            height: 46px;
+            border-radius: 10px;
+            background: var(--bg3);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 22px;
+            flex-shrink: 0;
+        }
+
+        .sim-info {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .sim-title {
+            font-size: 13px;
+            font-weight: 600;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .sim-price {
+            font-size: 12px;
+            color: var(--text-dim);
+        }
+
+        @media (max-width: 900px) {
+            .detail-wrap {
+                grid-template-columns: 1fr;
+            }
+
+            .detail-sidebar {}
+        }
+
+        @media (max-width: 600px) {
+            .detail-attrs {
+                grid-template-columns: 1fr;
+            }
+
+            .gallery-hero {
+                padding: 40px;
+                font-size: 80px;
+                min-height: 200px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <nav class="navbar scrolled" id="navbar">
+        <div class="nav-inner">
+            <a href="index.html" class="nav-logo"><span class="logo-icon">⬡</span><span
+                    class="logo-text">ListHub</span></a>
+            <div class="nav-links">
+                <a href="index.html#categories" class="nav-link">Browse</a>
+                <a href="listings.html" class="nav-link">Listings</a>
+                <a href="#" class="nav-link">Community</a>
+            </div>
+            <div class="nav-actions">
+                <button class="btn-ghost" id="loginBtn">Log In</button>
+                <a href="post.html" class="btn-primary">Post Ad</a>
+            </div>
+            <button class="hamburger" id="hamburger"><span></span><span></span><span></span></button>
+        </div>
+        <div class="mobile-menu" id="mobileMenu">
+            <a href="index.html">Home</a><a href="listings.html">Listings</a>
+        </div>
+    </nav>
+
+    <div class="detail-wrap" id="detailWrap">
+        <!-- Populated by JS -->
+    </div>
+
+    <!-- LOGIN MODAL -->
+    <div class="modal-overlay" id="loginModal">
+        <div class="modal">
+            <button class="modal-close" onclick="closeModal()">✕</button>
+            <div class="modal-logo"><span class="logo-icon">⬡</span><span class="logo-text">ListHub</span></div>
+            <h2 class="modal-title">Welcome Back</h2>
+            <p class="modal-sub">Log in to manage your listings</p>
+            <div class="modal-form">
+                <div class="form-group"><label>Email Address</label><input type="email" placeholder="you@example.com"
+                        class="form-input" /></div>
+                <div class="form-group"><label>Password</label><input type="password" placeholder="••••••••"
+                        class="form-input" /></div>
+                <button class="btn-primary full-width">Log In</button>
+                <div class="modal-divider"><span>or</span></div>
+                <button class="btn-social"><span>G</span> Continue with Google</button>
+                <p class="modal-footer-text">Don't have an account? <a href="#">Sign Up Free</a></p>
+            </div>
+        </div>
+    </div>
+
+    <script src="app.js"></script>
+    <script>
+        const ALL = [
+            { id: 1, cat: 'jobs', title: 'Senior Software Engineer', loc: 'San Francisco, CA', price: '$145,000/yr', emoji: '💻', time: '2h ago', desc: `Join our fast-growing fintech startup as a senior fullstack engineer.\n\nYou'll be working on our core product with a team of talented engineers. We use React, Node.js, TypeScript, and AWS.\n\nWhat we offer:\n• Competitive salary ($130k–$160k)\n• Equity package\n• 100% remote work\n• Health, dental and vision insurance\n• Home office stipend\n\nRequirements:\n• 5+ years of software engineering experience\n• Strong in React and Node.js\n• Experience with cloud infrastructure (AWS/GCP)\n• Excellent communication skills`, tags: ['Full-time', 'Remote OK'], attrs: { 'Job Type': 'Full-time', 'Work Mode': 'Remote', 'Experience': '5+ years', 'Industry': 'Fintech' } },
+            { id: 2, cat: 'jobs', title: 'UX/UI Designer', loc: 'New York, NY', price: '$95,000/yr', emoji: '🎨', time: '5h ago', desc: `We're looking for a mid-senior UX/UI Designer to join our growing SaaS product team.\n\nYou will lead the design of our core platform used by 50,000+ users. You'll work closely with engineering and product.\n\nRequirements:\n• 3+ years of product/UX design\n• Expert in Figma\n• Portfolio demonstrating user-centered design\n• Experience with design systems`, tags: ['Full-time', 'Hybrid'], attrs: { 'Job Type': 'Full-time', 'Work Mode': 'Hybrid', 'Experience': '3+ years', 'Industry': 'SaaS' } },
+            { id: 7, cat: 'housing', title: 'Modern Studio Apartment', loc: 'Brooklyn, NY', price: '$1,650/mo', emoji: '🏠', time: '1h ago', desc: `Stunning newly renovated studio apartment in the heart of Williamsburg, Brooklyn.\n\nFeatures:\n• 520 sq ft\n• Floor-to-ceiling windows\n• Chef's kitchen with quartz countertops\n• Hardwood floors throughout\n• Laundry in building\n• Pets considered (no dogs over 25lbs)\n• Heat and hot water included\n\nAvailable: April 1st\nSecurity deposit: 1 month`, tags: ['Studio', 'Pets OK'], attrs: { 'Type': 'Studio', 'Size': '520 sq ft', 'Floor': '3rd', 'Available': 'April 1' } },
+            { id: 11, cat: 'forsale', title: 'iPhone 15 Pro 256GB', loc: 'Miami, FL', price: '$950', emoji: '📱', time: '30m ago', desc: `Selling my iPhone 15 Pro, 256GB in Natural Titanium.\n\nCondition: Excellent — no scratches or dents. Battery health at 98%.\n\nIncludes:\n• Original box\n• Original USB-C cable\n• Original documentation\n• Clear case (bonus)\n\nNo Face ID issues, no activation lock. Can meet locally in Miami or ship insured.\n\nFirm on price — no trades.`, tags: ['Electronics', 'Like New'], attrs: { 'Condition': 'Like New', 'Storage': '256GB', 'Color': 'Natural Titanium', 'Battery': '98%' } },
+            { id: 17, cat: 'gigs', title: 'Website Designer Needed', loc: 'Remote', price: '$500–$1,200', emoji: '🖥️', time: '1h ago', desc: `Small business looking to redesign our outdated website.\n\nScope of work:\n• New modern homepage design\n• 5–8 interior pages\n• Mobile-responsive\n• WordPress CMS\n• Contact form integration\n• Basic SEO setup\n\nTimeline: 3–4 weeks\nBudget: $500–$1,200 depending on experience\n\nPlease send your portfolio and a brief intro. We'll select 3 candidates for a 15min video call.`, tags: ['Computer', 'Remote'], attrs: { 'Length': '3–4 weeks', 'Work Mode': 'Remote', 'Platform': 'WordPress', 'Compensation': 'Paid' } },
+        ];
+
+        const params = new URLSearchParams(window.location.search);
+        const listingId = parseInt(params.get('id') || '1');
+        const item = ALL.find(l => l.id === listingId) || ALL[0];
+        const similar = ALL.filter(l => l.cat === item.cat && l.id !== item.id).slice(0, 4);
+
+        const catColors = { jobs: '#6C63FF', housing: '#43E5A0', forsale: '#FFC947', gigs: '#F687B3', services: '#FF6B6B' };
+        const color = catColors[item.cat] || '#6C63FF';
+        const catLabel = { jobs: 'Jobs', housing: 'Housing', forsale: 'For Sale', gigs: 'Gigs', services: 'Services' }[item.cat] || item.cat;
+
+        document.title = `${item.title} – ListHub`;
+
+        document.getElementById('detailWrap').innerHTML = `
+    <div class="detail-main">
+      <div style="margin-bottom:16px;font-size:13px;color:var(--text-dim)">
+        <a href="index.html" style="color:var(--text-dim)">Home</a> /
+        <a href="listings.html?cat=${item.cat}" style="color:var(--text-dim)">${catLabel}</a> /
+        <span style="color:var(--text-muted)">${item.title}</span>
+      </div>
+
+      <div class="detail-gallery">
+        <div class="gallery-hero">${item.emoji}</div>
+      </div>
+
+      <div class="detail-body">
+        <div class="detail-tags">
+          <span class="detail-tag" style="background:${color}20;color:${color}">${catLabel}</span>
+          ${item.tags.map(t => `<span class="detail-tag" style="background:rgba(255,255,255,0.06);color:var(--text-muted)">${t}</span>`).join('')}
+        </div>
+        <h1 class="detail-title">${item.title}</h1>
+        <div class="detail-meta-row">
+          <div class="d-meta">📍 ${item.loc}</div>
+          <div class="d-meta">🕐 Posted ${item.time}</div>
+          <div class="d-meta">👁 427 views</div>
+        </div>
+        <div class="detail-price">${item.price}</div>
+        <div class="detail-divider"></div>
+
+        <div class="detail-section-title">Description</div>
+        <div class="detail-desc">${item.desc}</div>
+
+        <div class="detail-divider"></div>
+        <div class="detail-section-title">Details</div>
+        <div class="detail-attrs">
+          ${item.attrs ? Object.entries(item.attrs).map(([k, v]) => `
+            <div class="d-attr">
+              <div class="d-attr-label">${k}</div>
+              <div class="d-attr-val">${v}</div>
+            </div>`).join('') : ''}
+        </div>
+
+        <div class="detail-divider"></div>
+        <div style="display:flex;gap:16px;flex-wrap:wrap;">
+          <button class="contact-btn contact-btn-outline" onclick="showToast('🚩 Report submitted')" style="max-width:160px;padding:10px 16px;font-size:13px;">🚩 Report Ad</button>
+          <button class="contact-btn contact-btn-outline" onclick="navigator.clipboard&&navigator.clipboard.writeText(location.href);showToast('🔗 Link copied!')" style="max-width:160px;padding:10px 16px;font-size:13px;">🔗 Share</button>
+          <button class="contact-btn contact-btn-outline" onclick="toggleFavDetail(this)" style="max-width:160px;padding:10px 16px;font-size:13px;" id="favBtn">♡ Save</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="detail-sidebar">
+      <div class="contact-card">
+        <h3>Contact Poster</h3>
+        <button class="contact-btn contact-btn-primary" onclick="toggleReply()">✉️ Send Message</button>
+        <button class="contact-btn contact-btn-outline" onclick="showToast('📞 Phone number: (555) 012-3456')">📞 Show Phone</button>
+        <div class="contact-reply-form" id="replyForm">
+          <textarea class="form-input" style="min-height:100px;resize:vertical;border-radius:10px;font-size:14px;line-height:1.6;" placeholder="Hi, I'm interested in your listing..."></textarea>
+          <input type="email" class="form-input" placeholder="Your email address" />
+          <button class="contact-btn contact-btn-primary" onclick="sendReply()">Send Message →</button>
+        </div>
+      </div>
+
+      <div class="safety-card">
+        <h4>⚠️ Safety Tips</h4>
+        <ul>
+          <li>Meet in a public place</li>
+          <li>Don't pay in advance</li>
+          <li>Check the item before payment</li>
+          <li>Be wary of overpayment scams</li>
+          <li>Trust your instincts</li>
+        </ul>
+      </div>
+
+      ${similar.length ? `
+      <div class="similar-card">
+        <h4>Similar Listings</h4>
+        ${similar.map(s => `
+        <div class="sim-item" onclick="window.location.href='listing-detail.html?id=${s.id}'">
+          <div class="sim-thumb">${s.emoji}</div>
+          <div class="sim-info">
+            <div class="sim-title">${s.title}</div>
+            <div class="sim-price">${s.price} · ${s.loc}</div>
+          </div>
+        </div>`).join('')}
+      </div>` : ''}
+    </div>
+    `;
+
+        function toggleReply() {
+            const form = document.getElementById('replyForm');
+            form.classList.toggle('open');
+        }
+        function sendReply() {
+            showToast('✅ Message sent! Poster will reply to your email.');
+            document.getElementById('replyForm').classList.remove('open');
+        }
+        function toggleFavDetail(btn) {
+            const saved = btn.innerHTML.includes('♡');
+            btn.innerHTML = saved ? '♥ Saved' : '♡ Save';
+            btn.style.color = saved ? '#FF6B6B' : '';
+            btn.style.borderColor = saved ? '#FF6B6B' : '';
+            showToast(saved ? '❤️ Saved to favorites!' : 'Removed from favorites');
+        }
+    </script>
+</body>
+
+</html>

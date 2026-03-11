@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Post an Ad – ListHub</title>
+    <meta name="description"
+        content="Post a free classified ad on ListHub. Reach thousands of local buyers and job seekers instantly." />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Outfit:wght@400;500;600;700;800&display=swap"
+        rel="stylesheet" />
+    <link rel="stylesheet" href="styles.css" />
+</head>
+
+<body>
+
+    <nav class="navbar scrolled" id="navbar">
+        <div class="nav-inner">
+            <a href="index.html" class="nav-logo">
+                <span class="logo-icon">⬡</span>
+                <span class="logo-text">ListHub</span>
+            </a>
+            <div class="nav-links">
+                <a href="index.html#categories" class="nav-link">Browse</a>
+                <a href="#" class="nav-link">Community</a>
+            </div>
+            <div class="nav-actions">
+                <button class="btn-ghost" id="loginBtn">Log In</button>
+            </div>
+            <button class="hamburger" id="hamburger"><span></span><span></span><span></span></button>
+        </div>
+        <div class="mobile-menu" id="mobileMenu">
+            <a href="index.html">Home</a>
+            <a href="#">Community</a>
+        </div>
+    </nav>
+
+    <div class="post-page">
+        <div class="post-inner">
+            <div style="margin-bottom:8px;font-size:13px;color:var(--text-dim)">
+                <a href="index.html" style="color:var(--text-dim)">Home</a> / Post an Ad
+            </div>
+            <h1 class="post-page-title">Create a Listing</h1>
+            <p class="post-page-sub">It's free, fast, and reaches thousands locally. Fill in the details below.</p>
+
+            <div class="post-form" id="postForm">
+
+                <!-- Step 1: Category -->
+                <div>
+                    <div class="post-section-title">Step 1 — Choose a Category</div>
+                    <div class="category-picker" id="catPicker">
+                        <div class="cat-pick active" onclick="pickCat(this,'jobs')">
+                            <div class="cat-pick-icon">💼</div>
+                            Jobs
+                        </div>
+                        <div class="cat-pick" onclick="pickCat(this,'housing')">
+                            <div class="cat-pick-icon">🏠</div>
+                            Housing
+                        </div>
+                        <div class="cat-pick" onclick="pickCat(this,'forsale')">
+                            <div class="cat-pick-icon">🛒</div>
+                            For Sale
+                        </div>
+                        <div class="cat-pick" onclick="pickCat(this,'services')">
+                            <div class="cat-pick-icon">🔧</div>
+                            Services
+                        </div>
+                        <div class="cat-pick" onclick="pickCat(this,'gigs')">
+                            <div class="cat-pick-icon">⚡</div>
+                            Gigs
+                        </div>
+                        <div class="cat-pick" onclick="pickCat(this,'community')">
+                            <div class="cat-pick-icon">👥</div>
+                            Community
+                        </div>
+                        <div class="cat-pick" onclick="pickCat(this,'resumes')">
+                            <div class="cat-pick-icon">📄</div>
+                            Resumes
+                        </div>
+                        <div class="cat-pick" onclick="pickCat(this,'events')">
+                            <div class="cat-pick-icon">🎉</div>
+                            Events
+                        </div>
+                        <div class="cat-pick" onclick="pickCat(this,'others')">
+                            <div class="cat-pick-icon">🗂️</div>
+                            Others
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Step 2: Details -->
+                <div>
+                    <div class="post-section-title">Step 2 — Listing Details</div>
+                    <div style="display:flex;flex-direction:column;gap:16px;">
+                        <div class="form-group-full">
+                            <label class="form-label">Listing Title *</label>
+                            <input type="text" class="form-input-lg" id="postTitle"
+                                placeholder="e.g. Senior Developer – Remote, $130k" maxlength="100" />
+                            <span style="font-size:11px;color:var(--text-dim);margin-top:4px;">Keep it clear and
+                                descriptive (max 100 chars)</span>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group-full">
+                                <label class="form-label">Subcategory</label>
+                                <select class="form-input-lg form-select" id="postSubcat">
+                                    <option>Select subcategory…</option>
+                                    <option>Software / QA</option>
+                                    <option>Design</option>
+                                    <option>Marketing</option>
+                                    <option>Sales</option>
+                                    <option>General Labor</option>
+                                    <option>Healthcare</option>
+                                    <option>Education</option>
+                                    <option>Finance</option>
+                                    <option>Other</option>
+                                </select>
+                            </div>
+                            <div class="form-group-full">
+                                <label class="form-label">Employment Type</label>
+                                <select class="form-input-lg form-select" id="postType">
+                                    <option>Full-time</option>
+                                    <option>Part-time</option>
+                                    <option>Contract</option>
+                                    <option>Remote</option>
+                                    <option>Internship</option>
+                                    <option>Freelance</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group-full">
+                            <label class="form-label">Description *</label>
+                            <textarea class="form-input-lg form-textarea" id="postDesc"
+                                placeholder="Describe your listing. Include all relevant details like requirements, condition, location, etc."
+                                rows="6"></textarea>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Step 3: Location & Price -->
+                <div>
+                    <div class="post-section-title">Step 3 — Location & Pricing</div>
+                    <div style="display:flex;flex-direction:column;gap:16px;">
+                        <div class="form-row">
+                            <div class="form-group-full">
+                                <label class="form-label">City *</label>
+                                <input type="text" class="form-input-lg" id="postCity"
+                                    placeholder="e.g. Brooklyn, NY" />
+                            </div>
+                            <div class="form-group-full">
+                                <label class="form-label">ZIP Code</label>
+                                <input type="text" class="form-input-lg" id="postZip" placeholder="e.g. 11201"
+                                    maxlength="10" />
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group-full">
+                                <label class="form-label">Price / Salary</label>
+                                <input type="text" class="form-input-lg" id="postPrice"
+                                    placeholder="e.g. $95,000/yr or $400" />
+                            </div>
+                            <div class="form-group-full">
+                                <label class="form-label">Price Type</label>
+                                <select class="form-input-lg form-select" id="postPriceType">
+                                    <option>Per year</option>
+                                    <option>Per hour</option>
+                                    <option>Per month</option>
+                                    <option>Fixed price</option>
+                                    <option>Negotiable</option>
+                                    <option>Free</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Step 4: Photos -->
+                <div>
+                    <div class="post-section-title">Step 4 — Add Photos</div>
+                    <div class="upload-zone" onclick="document.getElementById('photoInput').click()" id="uploadZone">
+                        <div class="upload-icon">📸</div>
+                        <div class="upload-text">Click to upload photos</div>
+                        <div class="upload-sub">PNG, JPG, GIF up to 10MB each. Max 8 photos.</div>
+                        <input type="file" id="photoInput" accept="image/*" multiple style="display:none"
+                            onchange="previewPhotos(this)" />
+                    </div>
+                    <div id="photoPreview" style="display:none;margin-top:12px;display:flex;gap:10px;flex-wrap:wrap;">
+                    </div>
+                </div>
+
+                <!-- Step 5: Contact -->
+                <div>
+                    <div class="post-section-title">Step 5 — Contact Info</div>
+                    <div style="display:flex;flex-direction:column;gap:16px;">
+                        <div class="form-row">
+                            <div class="form-group-full">
+                                <label class="form-label">Your Name *</label>
+                                <input type="text" class="form-input-lg" id="postName" placeholder="John Doe" />
+                            </div>
+                            <div class="form-group-full">
+                                <label class="form-label">Email Address *</label>
+                                <input type="email" class="form-input-lg" id="postEmail"
+                                    placeholder="you@example.com" />
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group-full">
+                                <label class="form-label">Phone (optional)</label>
+                                <input type="tel" class="form-input-lg" id="postPhone"
+                                    placeholder="+1 (555) 000-0000" />
+                            </div>
+                            <div class="form-group-full">
+                                <label class="form-label">Best contact method</label>
+                                <select class="form-input-lg form-select" id="postContact">
+                                    <option>Email only</option>
+                                    <option>Phone only</option>
+                                    <option>Email or Phone</option>
+                                    <option>Text only</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Terms & Submit -->
+                <div style="display:flex;flex-direction:column;gap:16px;">
+                    <label
+                        style="display:flex;align-items:flex-start;gap:12px;cursor:pointer;font-size:13px;color:var(--text-muted);">
+                        <input type="checkbox" id="agreeTerms"
+                            style="margin-top:2px;flex-shrink:0;accent-color:var(--primary);width:16px;height:16px;" />
+                        <span>I agree to ListHub's <a href="#" style="color:var(--primary);font-weight:600;">Terms of
+                                Service</a> and <a href="#" style="color:var(--primary);font-weight:600;">Posting
+                                Guidelines</a>. I confirm this listing is accurate and complies with all applicable
+                            laws.</span>
+                    </label>
+                    <button class="form-submit" onclick="submitPost()">🚀 Publish Listing for Free</button>
+                    <p style="text-align:center;font-size:12px;color:var(--text-dim)">Your listing will go live
+                        instantly and remain active for 30 days.</p>
+                </div>
+
+            </div>
+
+            <!-- Success State -->
+            <div id="postSuccess"
+                style="display:none;text-align:center;padding:60px 40px;background:var(--surface);border:1px solid var(--border);border-radius:24px;">
+                <div style="font-size:64px;margin-bottom:20px;">🎉</div>
+                <h2 style="font-family:var(--font-display);font-size:28px;font-weight:800;margin-bottom:12px;">Your
+                    listing is live!</h2>
+                <p style="color:var(--text-muted);font-size:15px;margin-bottom:32px;">Your ad has been posted
+                    successfully and is now visible to thousands of local users.</p>
+                <div style="display:flex;gap:16px;justify-content:center;flex-wrap:wrap;">
+                    <a href="listings.html" class="btn-primary" style="padding:14px 32px;font-size:15px;">View
+                        Listings</a>
+                    <a href="post.html" class="btn-cta-ghost"
+                        style="padding:14px 32px;font-size:15px;font-weight:600;">Post Another</a>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- LOGIN MODAL -->
+    <div class="modal-overlay" id="loginModal">
+        <div class="modal">
+            <button class="modal-close" onclick="closeModal()">✕</button>
+            <div class="modal-logo"><span class="logo-icon">⬡</span><span class="logo-text">ListHub</span></div>
+            <h2 class="modal-title">Welcome Back</h2>
+            <p class="modal-sub">Log in to manage your listings</p>
+            <div class="modal-form">
+                <div class="form-group"><label>Email Address</label><input type="email" placeholder="you@example.com"
+                        class="form-input" /></div>
+                <div class="form-group"><label>Password</label><input type="password" placeholder="••••••••"
+                        class="form-input" /></div>
+                <button class="btn-primary full-width">Log In</button>
+                <div class="modal-divider"><span>or</span></div>
+                <button class="btn-social"><span>G</span> Continue with Google</button>
+                <p class="modal-footer-text">Don't have an account? <a href="#">Sign Up Free</a></p>
+            </div>
+        </div>
+    </div>
+
+    <script src="app.js"></script>
+    <script>
+        function pickCat(el, cat) {
+            document.querySelectorAll('.cat-pick').forEach(c => c.classList.remove('active'));
+            el.classList.add('active');
+        }
+        function previewPhotos(input) {
+            const preview = document.getElementById('photoPreview');
+            preview.style.display = 'flex';
+            preview.innerHTML = '';
+            Array.from(input.files).slice(0, 8).forEach(file => {
+                const reader = new FileReader();
+                reader.onload = e => {
+                    const div = document.createElement('div');
+                    div.style.cssText = 'width:80px;height:80px;border-radius:10px;overflow:hidden;border:1px solid var(--border);position:relative;flex-shrink:0;';
+                    div.innerHTML = `<img src="${e.target.result}" style="width:100%;height:100%;object-fit:cover;" /><button onclick="this.parentElement.remove()" style="position:absolute;top:4px;right:4px;width:20px;height:20px;border-radius:50%;background:rgba(255,107,107,0.9);color:#fff;font-size:10px;border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;">✕</button>`;
+                    preview.appendChild(div);
+                };
+                reader.readAsDataURL(file);
+            });
+        }
+        function submitPost() {
+            const title = document.getElementById('postTitle').value.trim();
+            const desc = document.getElementById('postDesc').value.trim();
+            const city = document.getElementById('postCity').value.trim();
+            const name = document.getElementById('postName').value.trim();
+            const email = document.getElementById('postEmail').value.trim();
+            const agreed = document.getElementById('agreeTerms').checked;
+
+            if (!title) { showToast('⚠️ Please enter a listing title', ''); return; }
+            if (!desc) { showToast('⚠️ Please add a description', ''); return; }
+            if (!city) { showToast('⚠️ Please enter your city', ''); return; }
+            if (!name) { showToast('⚠️ Please enter your name', ''); return; }
+            if (!email) { showToast('⚠️ Please enter your email', ''); return; }
+            if (!agreed) { showToast('⚠️ Please agree to the terms', ''); return; }
+
+            // Simulate submission
+            const btn = document.querySelector('.form-submit');
+            btn.textContent = '⏳ Publishing...';
+            btn.disabled = true;
+            setTimeout(() => {
+                document.getElementById('postForm').style.display = 'none';
+                document.getElementById('postSuccess').style.display = 'block';
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            }, 1500);
+        }
+    </script>
+</body>
+
+</html>

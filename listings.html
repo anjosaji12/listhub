@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Browse Listings – ListHub</title>
+    <meta name="description"
+        content="Browse thousands of local listings for jobs, housing, for sale items, services, and more on ListHub." />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Outfit:wght@400;500;600;700;800&display=swap"
+        rel="stylesheet" />
+    <link rel="stylesheet" href="styles.css" />
+</head>
+
+<body>
+
+    <nav class="navbar scrolled" id="navbar">
+        <div class="nav-inner">
+            <a href="index.html" class="nav-logo">
+                <span class="logo-icon">⬡</span>
+                <span class="logo-text">ListHub</span>
+            </a>
+            <div class="nav-links">
+                <a href="index.html#categories" class="nav-link">Browse</a>
+                <a href="listings.html" class="nav-link" style="color:var(--text)">Listings</a>
+                <a href="#" class="nav-link">Community</a>
+                <a href="#" class="nav-link">About</a>
+            </div>
+            <div class="nav-actions">
+                <button class="btn-ghost" id="loginBtn">Log In</button>
+                <a href="post.html" class="btn-primary">Post Ad</a>
+            </div>
+            <button class="hamburger" id="hamburger"><span></span><span></span><span></span></button>
+        </div>
+        <div class="mobile-menu" id="mobileMenu">
+            <a href="index.html">Home</a>
+            <a href="listings.html">Listings</a>
+            <a href="#">Community</a>
+            <a href="post.html" class="btn-primary" style="text-align:center;margin-top:8px;">Post Ad</a>
+        </div>
+    </nav>
+
+    <!-- PAGE HEADER -->
+    <div class="listings-page-header">
+        <div class="listings-page-inner">
+            <div class="breadcrumb" style="font-size:13px;color:var(--text-dim);margin-bottom:12px;">
+                <a href="index.html" style="color:var(--text-dim)">Home</a> / <span id="breadCrumb"
+                    style="color:var(--text-muted)">All Listings</span>
+            </div>
+            <h1 class="listings-page-title" id="pageTitle">Browse Listings</h1>
+            <p class="listings-page-sub" id="pageSubtitle">Showing all listings near New York, NY</p>
+
+            <!-- Mini search bar -->
+            <div style="display:flex;gap:10px;margin-top:20px;flex-wrap:wrap;">
+                <div
+                    style="flex:1;min-width:240px;display:flex;align-items:center;gap:10px;background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:8px 16px;">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--text-dim)"
+                        stroke-width="2">
+                        <circle cx="11" cy="11" r="8" />
+                        <line x1="21" y1="21" x2="16.65" y2="16.65" />
+                    </svg>
+                    <input type="text" id="listingsSearch" placeholder="Search listings..."
+                        style="background:transparent;border:none;outline:none;color:var(--text);font-size:14px;flex:1;" />
+                </div>
+                <select id="locationFilter"
+                    style="background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:8px 16px;color:var(--text);font-size:14px;outline:none;">
+                    <option>All Cities</option>
+                    <option>New York, NY</option>
+                    <option>Los Angeles, CA</option>
+                    <option>Chicago, IL</option>
+                    <option>San Francisco, CA</option>
+                    <option>Austin, TX</option>
+                    <option>Miami, FL</option>
+                    <option>Seattle, WA</option>
+                    <option>Denver, CO</option>
+                </select>
+                <button onclick="applyFilters()" class="btn-primary"
+                    style="padding:10px 24px;font-size:14px;">Search</button>
+            </div>
+
+            <!-- Quick filters -->
+            <div class="filters-row" id="filtersRow">
+                <button class="filter-chip active" data-cat="all" onclick="filterCat(this,'all')">All</button>
+                <button class="filter-chip" data-cat="jobs" onclick="filterCat(this,'jobs')">💼 Jobs</button>
+                <button class="filter-chip" data-cat="housing" onclick="filterCat(this,'housing')">🏠 Housing</button>
+                <button class="filter-chip" data-cat="forsale" onclick="filterCat(this,'forsale')">🛒 For Sale</button>
+                <button class="filter-chip" data-cat="gigs" onclick="filterCat(this,'gigs')">⚡ Gigs</button>
+                <button class="filter-chip" data-cat="services" onclick="filterCat(this,'services')">🔧
+                    Services</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- LISTINGS LAYOUT -->
+    <div class="listings-layout">
+
+        <!-- SIDEBAR -->
+        <aside class="sidebar">
+            <div class="sidebar-block">
+                <h4>Category</h4>
+                <div class="sidebar-option active" onclick="filterSidebar(this,'all')">
+                    <div class="sidebar-option-left"><span>🗂️</span> All Categories</div>
+                    <span class="sidebar-option-count">20</span>
+                </div>
+                <div class="sidebar-option" onclick="filterSidebar(this,'jobs')">
+                    <div class="sidebar-option-left"><span>💼</span> Jobs</div>
+                    <span class="sidebar-option-count">6</span>
+                </div>
+                <div class="sidebar-option" onclick="filterSidebar(this,'housing')">
+                    <div class="sidebar-option-left"><span>🏠</span> Housing</div>
+                    <span class="sidebar-option-count">4</span>
+                </div>
+                <div class="sidebar-option" onclick="filterSidebar(this,'forsale')">
+                    <div class="sidebar-option-left"><span>🛒</span> For Sale</div>
+                    <span class="sidebar-option-count">6</span>
+                </div>
+                <div class="sidebar-option" onclick="filterSidebar(this,'gigs')">
+                    <div class="sidebar-option-left"><span>⚡</span> Gigs</div>
+                    <span class="sidebar-option-count">4</span>
+                </div>
+            </div>
+
+            <div class="sidebar-block">
+                <h4>Price Range</h4>
+                <div class="price-range">
+                    <input class="price-input" type="number" id="priceMin" placeholder="Min $" />
+                    <input class="price-input" type="number" id="priceMax" placeholder="Max $" />
+                </div>
+                <button onclick="applyFilters()"
+                    style="margin-top:12px;width:100%;padding:10px;background:var(--primary-light);border:1px solid rgba(108,99,255,0.3);color:var(--primary);border-radius:8px;font-size:13px;font-weight:600;cursor:pointer;transition:all 0.2s;">Apply</button>
+            </div>
+
+            <div class="sidebar-block">
+                <h4>Posted</h4>
+                <div class="sidebar-option active" onclick="selectSidebarOption(this)">
+                    <div class="sidebar-option-left"><span>📅</span> Any time</div>
+                </div>
+                <div class="sidebar-option" onclick="selectSidebarOption(this)">
+                    <div class="sidebar-option-left"><span>⏰</span> Past 24 hours</div>
+                </div>
+                <div class="sidebar-option" onclick="selectSidebarOption(this)">
+                    <div class="sidebar-option-left"><span>📆</span> Past week</div>
+                </div>
+                <div class="sidebar-option" onclick="selectSidebarOption(this)">
+                    <div class="sidebar-option-left"><span>🗓️</span> Past month</div>
+                </div>
+            </div>
+
+            <div class="sidebar-block">
+                <h4>Type</h4>
+                <div class="sidebar-option active" onclick="selectSidebarOption(this)">
+                    <div class="sidebar-option-left"><span>✅</span> Full-time</div>
+                </div>
+                <div class="sidebar-option" onclick="selectSidebarOption(this)">
+                    <div class="sidebar-option-left"><span>⚡</span> Part-time</div>
+                </div>
+                <div class="sidebar-option" onclick="selectSidebarOption(this)">
+                    <div class="sidebar-option-left"><span>💻</span> Remote</div>
+                </div>
+                <div class="sidebar-option" onclick="selectSidebarOption(this)">
+                    <div class="sidebar-option-left"><span>📦</span> Contract</div>
+                </div>
+            </div>
+        </aside>
+
+        <!-- MAIN CONTENT -->
+        <main class="main-listings">
+            <div class="listings-top-bar">
+                <div class="results-count"><strong id="resultsNum">20</strong> listings found</div>
+                <select class="sort-select" id="sortSelect" onchange="applyFilters()">
+                    <option value="newest">Newest First</option>
+                    <option value="oldest">Oldest First</option>
+                    <option value="price-asc">Price: Low to High</option>
+                    <option value="price-desc">Price: High to Low</option>
+                </select>
+            </div>
+
+            <div class="listings-list" id="listingsList">
+                <!-- Rendered by JS -->
+            </div>
+
+            <!-- PAGINATION -->
+            <div style="display:flex;justify-content:center;gap:8px;margin-top:40px;flex-wrap:wrap;" id="pagination">
+                <button class="filter-chip active" style="min-width:40px;">1</button>
+                <button class="filter-chip" style="min-width:40px;"
+                    onclick="showToast('📄 Loading page 2...')">2</button>
+                <button class="filter-chip" style="min-width:40px;"
+                    onclick="showToast('📄 Loading page 3...')">3</button>
+                <button class="filter-chip" onclick="showToast('📄 Loading next...')">Next →</button>
+            </div>
+        </main>
+    </div>
+
+    <!-- LOGIN MODAL -->
+    <div class="modal-overlay" id="loginModal">
+        <div class="modal">
+            <button class="modal-close" onclick="closeModal()">✕</button>
+            <div class="modal-logo"><span class="logo-icon">⬡</span><span class="logo-text">ListHub</span></div>
+            <h2 class="modal-title">Welcome Back</h2>
+            <p class="modal-sub">Log in to manage your listings</p>
+            <div class="modal-form">
+                <div class="form-group"><label>Email Address</label><input type="email" placeholder="you@example.com"
+                        class="form-input" /></div>
+                <div class="form-group"><label>Password</label><input type="password" placeholder="••••••••"
+                        class="form-input" /></div>
+                <button class="btn-primary full-width">Log In</button>
+                <div class="modal-divider"><span>or</span></div>
+                <button class="btn-social"><span>G</span> Continue with Google</button>
+                <p class="modal-footer-text">Don't have an account? <a href="#">Sign Up Free</a></p>
+            </div>
+        </div>
+    </div>
+
+    <script src="app.js"></script>
+    <script>
+        /* ── LISTINGS PAGE LOGIC ── */
+        const LISTINGS_ALL = [
+            { id: 1, cat: 'jobs', title: 'Senior Software Engineer', loc: 'San Francisco, CA', price: '$145,000/yr', emoji: '💻', time: '2h ago', desc: 'Join our fast-growing fintech startup. We need a senior fullstack engineer with React/Node experience. Great benefits, flexible hours.', tags: ['Full-time', 'Remote OK'] },
+            { id: 2, cat: 'jobs', title: 'UX/UI Designer', loc: 'New York, NY', price: '$95,000/yr', emoji: '🎨', time: '5h ago', desc: 'Lead product design for a SaaS platform. Figma expertise required. Hybrid role with great team culture.', tags: ['Full-time', 'Hybrid'] },
+            { id: 3, cat: 'jobs', title: 'Medical Assistant', loc: 'Chicago, IL', price: '$48,000/yr', emoji: '🩺', time: '1d ago', desc: 'Growing clinic looking for a certified medical assistant with 2+ years experience. Great work-life balance.', tags: ['Full-time', 'On-site'] },
+            { id: 4, cat: 'jobs', title: 'Marketing Manager', loc: 'Austin, TX', price: '$85,000/yr', emoji: '📊', time: '3h ago', desc: 'Lead our B2B marketing campaigns. Experience with HubSpot and content strategy preferred.', tags: ['Full-time', 'Remote'] },
+            { id: 5, cat: 'jobs', title: 'Delivery Driver', loc: 'Los Angeles, CA', price: '$22/hr', emoji: '🚚', time: '6h ago', desc: 'Sign on bonus available. Flexible hours, fuel reimbursement, reliable vehicle required.', tags: ['Part-time', 'Flexible'] },
+            { id: 6, cat: 'jobs', title: 'Data Analyst', loc: 'Seattle, WA', price: '$110,000/yr', emoji: '📈', time: '4h ago', desc: 'Help us turn data into actionable insights. SQL, Python, and Tableau skills required.', tags: ['Full-time', 'Remote'] },
+            { id: 7, cat: 'housing', title: 'Modern Studio Apartment', loc: 'Brooklyn, NY', price: '$1,650/mo', emoji: '🏠', time: '1h ago', desc: 'Newly renovated studio in prime Williamsburg location. Natural light, open kitchen, laundry in building.', tags: ['Studio', 'Pets OK'] },
+            { id: 8, cat: 'housing', title: '2BR Apartment, Great Light', loc: 'Chicago, IL', price: '$1,900/mo', emoji: '🛋️', time: '3h ago', desc: 'Sunny 2 bed 1 bath on the 4th floor. Hardwood floors, exposed brick, steps from the L train.', tags: ['2 Bed', 'No Pets'] },
+            { id: 9, cat: 'housing', title: 'Private Room in Shared House', loc: 'Austin, TX', price: '$850/mo', emoji: '🚪', time: '7h ago', desc: 'Furnished room available in a 4-bedroom house shared with working professionals. Utilities included.', tags: ['Room', 'Furnished'] },
+            { id: 10, cat: 'housing', title: 'Cozy Cottage for Rent', loc: 'Portland, OR', price: '$2,100/mo', emoji: '🏡', time: '2d ago', desc: 'Charming 1br cottage with private yard. Walking distance to cafes and transit lines.', tags: ['1 Bed', 'Yard'] },
+            { id: 11, cat: 'forsale', title: 'iPhone 15 Pro 256GB', loc: 'Miami, FL', price: '$950', emoji: '📱', time: '30m ago', desc: 'Excellent condition, no scratches. Natural titanium. Comes with original box and charger.', tags: ['Electronics', 'Like New'] },
+            { id: 12, cat: 'forsale', title: 'Mid-Century Modern Sofa', loc: 'Denver, CO', price: '$380', emoji: '🛋️', time: '2h ago', desc: 'Beautiful walnut legs, teal upholstery. Moving sale — must go this weekend. Local pickup only.', tags: ['Furniture', 'Pickup Only'] },
+            { id: 13, cat: 'forsale', title: 'Trek Mountain Bike 2022', loc: 'Boulder, CO', price: '$650', emoji: '🚴', time: '4h ago', desc: 'Trek Marlin 5, size M. Lightly used, great condition. New tires, fresh tune-up.', tags: ['Bikes', 'Lightly Used'] },
+            { id: 14, cat: 'forsale', title: 'MacBook Pro M2, 16GB', loc: 'San Jose, CA', price: '$1,200', emoji: '💻', time: '1h ago', desc: 'MacBook Pro 14" M2 chip. Space gray, 1TB SSD. AppleCare until 2026.', tags: ['Electronics', 'Excellent'] },
+            { id: 15, cat: 'forsale', title: 'PlayStation 5 Bundle', loc: 'Phoenix, AZ', price: '$500', emoji: '🎮', time: '5h ago', desc: 'PS5 disc edition with 2 controllers and 3 games. All original accessories included.', tags: ['Gaming', 'Like New'] },
+            { id: 16, cat: 'forsale', title: 'Vintage Leather Jacket', loc: 'Nashville, TN', price: '$180', emoji: '🧥', time: '3h ago', desc: 'Genuine leather, size M. Light brown with brown buttons. 90s vintage, excellent condition.', tags: ['Clothing', 'Vintage'] },
+            { id: 17, cat: 'gigs', title: 'Website Designer Needed', loc: 'Remote', price: '$500–$1,200', emoji: '🖥️', time: '1h ago', desc: 'Looking for a freelancer to redesign our small business website. WordPress preferred. Must have portfolio.', tags: ['Computer', 'Remote'] },
+            { id: 18, cat: 'gigs', title: 'Weekend Music Gig', loc: 'New York, NY', price: '$300/night', emoji: '🎵', time: '3h ago', desc: 'Live jazz band needed for restaurant Friday and Saturday nights. 3-hour sets, 9pm–midnight.', tags: ['Creative', 'Weekly'] },
+            { id: 19, cat: 'gigs', title: 'Pet Sitter Wanted', loc: 'Los Angeles, CA', price: '$30/visit', emoji: '🐾', time: '8h ago', desc: 'Need someone to watch our golden retriever while we travel for 2 weeks in April.', tags: ['Pet Care', 'On-site'] },
+            { id: 20, cat: 'gigs', title: 'Furniture Assembly Help', loc: 'Chicago, IL', price: '$80', emoji: '🔧', time: '2h ago', desc: 'Need help assembling IKEA furniture. 5 pieces total. Cash paid same day.', tags: ['Labor', 'One-time'] },
+        ];
+
+        let currentCat = 'all';
+        let currentSearch = '';
+
+        function filterCat(el, cat) {
+            document.querySelectorAll('.filter-chip').forEach(c => c.classList.remove('active'));
+            el.classList.add('active');
+            currentCat = cat;
+            updateSidebarActive(cat);
+            renderList();
+        }
+        function filterSidebar(el, cat) {
+            document.querySelectorAll('.sidebar-option').forEach(o => o.classList.remove('active'));
+            el.classList.add('active');
+            currentCat = cat;
+            // sync top chips
+            document.querySelectorAll('.filter-chip[data-cat]').forEach(c => {
+                c.classList.toggle('active', c.dataset.cat === cat);
+            });
+            renderList();
+        }
+        function selectSidebarOption(el) {
+            el.closest('.sidebar-block').querySelectorAll('.sidebar-option').forEach(o => o.classList.remove('active'));
+            el.classList.add('active');
+        }
+        function updateSidebarActive(cat) {
+            document.querySelectorAll('.sidebar-option').forEach(o => {
+                const txt = o.querySelector('.sidebar-option-left')?.textContent?.toLowerCase() || '';
+                const matches = cat === 'all' ? txt.includes('all') : txt.includes(cat);
+                o.classList.toggle('active', matches);
+            });
+        }
+        function applyFilters() {
+            currentSearch = document.getElementById('listingsSearch')?.value?.toLowerCase() || '';
+            renderList();
+        }
+        function renderList() {
+            const list = document.getElementById('listingsList');
+            const numEl = document.getElementById('resultsNum');
+            let items = LISTINGS_ALL;
+            if (currentCat !== 'all') items = items.filter(i => i.cat === currentCat);
+            if (currentSearch) items = items.filter(i => i.title.toLowerCase().includes(currentSearch) || i.desc.toLowerCase().includes(currentSearch));
+
+            const sort = document.getElementById('sortSelect')?.value || 'newest';
+            if (sort === 'price-asc') {
+                items = [...items].sort((a, b) => parsePrice(a.price) - parsePrice(b.price));
+            } else if (sort === 'price-desc') {
+                items = [...items].sort((a, b) => parsePrice(b.price) - parsePrice(a.price));
+            }
+
+            if (numEl) numEl.textContent = items.length;
+            if (items.length === 0) {
+                list.innerHTML = `<div class="no-results"><div class="no-results-icon">🔍</div><h3>No listings found</h3><p>Try adjusting your search or filters.</p></div>`;
+                return;
+            }
+            list.innerHTML = items.map(item => listCardHTML(item)).join('');
+        }
+        function parsePrice(p) {
+            const n = parseFloat(p.replace(/[^0-9.]/g, ''));
+            return isNaN(n) ? 0 : n;
+        }
+        function listCardHTML(item) {
+            const catColors = { jobs: '#6C63FF', housing: '#43E5A0', forsale: '#FFC947', gigs: '#F687B3', services: '#FF6B6B' };
+            const color = catColors[item.cat] || '#6C63FF';
+            return `
+      <div class="list-card" onclick="window.location.href='listing-detail.html?id=${item.id}'">
+        <div class="list-card-thumb" style="font-size:36px">${item.emoji}</div>
+        <div class="list-card-body">
+          <div class="list-card-header">
+            <div class="list-card-title">${item.title}</div>
+            <div class="list-card-price">${item.price}</div>
+          </div>
+          <div class="list-card-desc">${item.desc}</div>
+          <div class="list-card-footer">
+            <span class="lc-tag" style="background:${color}20;color:${color}">${item.cat.charAt(0).toUpperCase() + item.cat.slice(1)}</span>
+            ${item.tags.map(t => `<span class="lc-tag" style="background:rgba(255,255,255,0.06);color:var(--text-muted)">${t}</span>`).join('')}
+            <span class="lc-meta">📍 ${item.loc}</span>
+            <span class="lc-meta">🕐 ${item.time}</span>
+          </div>
+        </div>
+      </div>`;
+        }
+
+        // Read URL params
+        const params = new URLSearchParams(window.location.search);
+        const urlCat = params.get('cat');
+        const urlQ = params.get('q');
+        if (urlCat) {
+            currentCat = urlCat;
+            document.querySelectorAll('.filter-chip[data-cat]').forEach(c => {
+                c.classList.toggle('active', c.dataset.cat === urlCat);
+            });
+            const catLabels = { jobs: 'Jobs', housing: 'Housing', forsale: 'For Sale', gigs: 'Gigs', services: 'Services' };
+            const label = catLabels[urlCat] || urlCat;
+            document.getElementById('pageTitle').textContent = `Browse ${label}`;
+            document.getElementById('breadCrumb').textContent = label;
+            document.getElementById('pageSubtitle').textContent = `Showing all ${label.toLowerCase()} listings`;
+        }
+        if (urlQ) {
+            currentSearch = urlQ.toLowerCase();
+            document.getElementById('listingsSearch').value = urlQ;
+            document.getElementById('pageTitle').textContent = `Search: "${urlQ}"`;
+        }
+
+        document.getElementById('listingsSearch')?.addEventListener('keydown', e => { if (e.key === 'Enter') applyFilters(); });
+        document.addEventListener('DOMContentLoaded', renderList);
+        renderList();
+    </script>
+</body>
+
+</html>
