@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 
 <head>
@@ -277,6 +277,176 @@
                 transform: translateY(0);
             }
         }
+
+        /* ── GPS Button in search bar ── */
+        .gps-btn {
+            background: none;
+            border: none;
+            cursor: pointer;
+            color: #10B981;
+            padding: 0 4px;
+            display: flex;
+            align-items: center;
+            transition: all 0.2s;
+            flex-shrink: 0;
+        }
+
+        .gps-btn:hover {
+            color: #34D399;
+            transform: scale(1.1);
+        }
+
+        .gps-btn.spinning svg {
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        /* ── Near Me Results Section ── */
+        .nearby-section {
+            display: none;
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 0 24px 60px;
+        }
+
+        .nearby-section.show {
+            display: block;
+        }
+
+        .nearby-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 24px;
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+
+        .nearby-title {
+            font-family: 'Outfit', sans-serif;
+            font-size: 22px;
+            font-weight: 800;
+            color: var(--text);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .nearby-count {
+            font-size: 13px;
+            font-weight: 500;
+            color: var(--text-muted);
+            font-family: var(--font);
+        }
+
+        .nearby-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 16px;
+        }
+
+        .nearby-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 20px;
+            transition: all 0.25s;
+            cursor: pointer;
+            text-decoration: none;
+            display: block;
+            color: var(--text);
+        }
+
+        .nearby-card:hover {
+            border-color: rgba(16, 185, 129, 0.4);
+            transform: translateY(-3px);
+            box-shadow: 0 10px 32px rgba(16, 185, 129, 0.1);
+        }
+
+        .nc-top {
+            display: flex;
+            align-items: flex-start;
+            gap: 14px;
+            margin-bottom: 12px;
+        }
+
+        .nc-icon {
+            width: 44px;
+            height: 44px;
+            border-radius: 12px;
+            background: linear-gradient(135deg, rgba(16, 185, 129, 0.15), rgba(52, 211, 153, 0.08));
+            border: 1px solid rgba(16, 185, 129, 0.2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            flex-shrink: 0;
+        }
+
+        .nc-name {
+            font-weight: 700;
+            font-size: 15px;
+            color: var(--text);
+            line-height: 1.35;
+            margin-bottom: 3px;
+        }
+
+        .nc-type {
+            font-size: 11px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            color: #10B981;
+        }
+
+        .nc-addr {
+            font-size: 12px;
+            color: var(--text-muted);
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .nc-dist {
+            font-size: 11px;
+            font-weight: 700;
+            color: #10B981;
+            margin-left: auto;
+            background: rgba(16, 185, 129, 0.1);
+            border-radius: 20px;
+            padding: 2px 10px;
+        }
+
+        .nearby-skeleton {
+            background: linear-gradient(90deg, #162030 25%, #1C2A3E 50%, #162030 75%);
+            background-size: 200% 100%;
+            animation: shimmer 1.4s infinite;
+            border-radius: 16px;
+            height: 120px;
+        }
+
+        @keyframes shimmer {
+            0% {
+                background-position: 200% 0
+            }
+
+            100% {
+                background-position: -200% 0
+            }
+        }
+
+        .nearby-empty {
+            text-align: center;
+            padding: 40px;
+            color: var(--text-muted);
+            font-size: 14px;
+            grid-column: 1 / -1;
+        }
     </style>
 </head>
 
@@ -388,8 +558,16 @@
                             <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" />
                             <circle cx="12" cy="10" r="3" />
                         </svg>
-                        <input type="text" id="locationInput" class="location-input" placeholder="City or ZIP"
-                            value="New York, NY" />
+                        <input type="text" id="locationInput" class="location-input" placeholder="Detecting location..."
+                            value="" />
+                        <button class="gps-btn" id="gpsBtn" onclick="triggerGPS()" title="Detect my location">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="2.5">
+                                <circle cx="12" cy="12" r="3" />
+                                <path d="M12 2v3M12 19v3M2 12h3M19 12h3" />
+                                <circle cx="12" cy="12" r="9" opacity="0.3" />
+                            </svg>
+                        </button>
                     </div>
                     <button class="search-btn" id="searchBtn" onclick="doSearch()">
                         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
@@ -434,6 +612,20 @@
             </div>
         </div>
 
+    </section>
+
+    <!-- ─── NEAR ME RESULTS ─── -->
+    <section class="nearby-section" id="nearbySection">
+        <div class="nearby-header">
+            <div class="nearby-title">
+                <span>📍</span>
+                <span id="nearbyTitle">Services Near You</span>
+            </div>
+            <span class="nearby-count" id="nearbyCount"></span>
+        </div>
+        <div class="nearby-grid" id="nearbyGrid">
+            <!-- populated by JS -->
+        </div>
     </section>
 
     <!-- ─── CATEGORY GRID ─── -->
@@ -756,12 +948,12 @@
     <script type="module">
       import { onAuthChange, logOut } from './firebase.js';
 
+      /* â”€â”€ Auth â”€â”€ */
       function getInitial(name, email) {
         if (name && name.trim()) return name.trim()[0].toUpperCase();
         if (email) return email[0].toUpperCase();
         return 'U';
       }
-
       onAuthChange((user) => {
         const loginBtn  = document.getElementById('navLogin');
         const signupBtn = document.getElementById('navSignup');
@@ -770,8 +962,7 @@
           if (loginBtn)  loginBtn.style.display  = 'none';
           if (signupBtn) signupBtn.style.display = 'none';
           profile.style.display = 'flex';
-          const name = user.displayName || '';
-          const email = user.email || '';
+          const name = user.displayName || '', email = user.email || '';
           const initial = getInitial(name, email);
           const displayName = name || email.split('@')[0];
           document.getElementById('navAvatar').textContent = initial;
@@ -785,90 +976,205 @@
           profile.style.display = 'none';
         }
       });
-
-      window.toggleProfileMenu = () => {
-        document.getElementById('profileDropdown').classList.toggle('open');
-      };
-      window.doLogout = async () => {
-        await logOut();
-        document.getElementById('profileDropdown').classList.remove('open');
-      };
+      window.toggleProfileMenu = () => document.getElementById('profileDropdown').classList.toggle('open');
+      window.doLogout = async () => { await logOut(); document.getElementById('profileDropdown').classList.remove('open'); };
       document.addEventListener('click', (e) => {
-        const profile = document.getElementById('navProfile');
-        if (profile && !profile.contains(e.target)) {
-          const dd = document.getElementById('profileDropdown');
-          if (dd) dd.classList.remove('open');
-        }
+        const p = document.getElementById('navProfile');
+        if (p && !p.contains(e.target)) { const d = document.getElementById('profileDropdown'); if(d) d.classList.remove('open'); }
       });
 
-      /* =========================================
-         GEOLOCATION
-      ========================================= */
+      /* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+         GEOLOCATION + NEARBY PLACES (Overpass API)
+      â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
       const LOC_KEY       = 'lh_location';
       const LOC_DISMISSED = 'lh_loc_dismissed';
+      let   currentLoc    = null;
 
+      const AMENITY_EMOJI = {
+        restaurant:'ðŸ½ï¸', cafe:'â˜•', hospital:'ðŸ¥', school:'ðŸ«', bank:'ðŸ¦',
+        pharmacy:'ðŸ’Š', gym:'ðŸ’ª', hotel:'ðŸ¨', library:'ðŸ“š', cinema:'ðŸŽ¬',
+        bar:'ðŸº', supermarket:'ðŸ›’', shop:'ðŸª', office:'ðŸ¢', parking:'ðŸ…¿ï¸',
+        fuel:'â›½', church:'â›ª', police:'ðŸš“', post_office:'ðŸ“®', atm:'ðŸ§',
+        beauty:'ðŸ’…', hairdresser:'âœ‚ï¸', dentist:'ðŸ¦·', doctors:'ðŸ‘¨â€âš•ï¸',
+        fast_food:'ðŸ”', marketplace:'ðŸ¬', clinic:'ðŸ¥', college:'ðŸŽ“',
+        university:'ðŸŽ“', kindergarten:'ðŸ§’', sports_centre:'âš½'
+      };
+
+      /* â”€â”€ Haversine distance â”€â”€ */
+      function distKm(lat1, lon1, lat2, lon2) {
+        const R = 6371, dL = (lat2-lat1)*Math.PI/180, dO = (lon2-lon1)*Math.PI/180;
+        const a = Math.sin(dL/2)**2 + Math.cos(lat1*Math.PI/180)*Math.cos(lat2*Math.PI/180)*Math.sin(dO/2)**2;
+        return R * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+      }
+      function fmtDist(km) { return km < 1 ? Math.round(km*1000)+'m away' : km.toFixed(1)+'km away'; }
+
+      /* â”€â”€ Page load â”€â”€ */
       window.addEventListener('DOMContentLoaded', async () => {
         if (localStorage.getItem(LOC_DISMISSED)) return;
         const cached = localStorage.getItem(LOC_KEY);
-        if (cached) { applyLocation(JSON.parse(cached)); return; }
+        if (cached) { currentLoc = JSON.parse(cached); applyLocation(currentLoc); fetchNearby('','all'); return; }
         if ('permissions' in navigator) {
           const perm = await navigator.permissions.query({ name: 'geolocation' });
           if (perm.state === 'granted') { detectLocation(); return; }
         }
-        setTimeout(() => { document.getElementById('locBanner').classList.add('show'); }, 1500);
+        setTimeout(() => document.getElementById('locBanner').classList.add('show'), 1500);
       });
 
-      window.requestLocation = () => {
-        document.getElementById('locBanner').classList.remove('show');
-        detectLocation();
-      };
-      window.dismissLocBanner = () => {
-        document.getElementById('locBanner').classList.remove('show');
-        localStorage.setItem(LOC_DISMISSED, '1');
+      window.requestLocation = () => { document.getElementById('locBanner').classList.remove('show'); detectLocation(); };
+      window.dismissLocBanner = () => { document.getElementById('locBanner').classList.remove('show'); localStorage.setItem(LOC_DISMISSED,'1'); };
+
+      /* â”€â”€ GPS button click â”€â”€ */
+      window.triggerGPS = () => {
+        const btn = document.getElementById('gpsBtn');
+        btn.classList.add('spinning');
+        localStorage.removeItem(LOC_KEY);
+        document.getElementById('locationInput').value = '';
+        document.getElementById('locationInput').placeholder = 'Detecting...';
+        detectLocation(() => btn.classList.remove('spinning'));
       };
 
-      function detectLocation() {
-        if (!navigator.geolocation) return;
+      /* â”€â”€ Core: detect + reverse geocode â”€â”€ */
+      function detectLocation(onDone) {
+        if (!navigator.geolocation) { if(onDone) onDone(); return; }
         navigator.geolocation.getCurrentPosition(
           async (pos) => {
-            const { latitude, longitude } = pos.coords;
+            const { latitude: lat, longitude: lon } = pos.coords;
             try {
               const res  = await fetch(
-                `https://nominatim.openstreetmap.org/reverse?lat=${latitude}&lon=${longitude}&format=json`,
-                { headers: { 'Accept-Language': 'en' } }
+                `https://nominatim.openstreetmap.org/reverse?lat=${lat}&lon=${lon}&format=json`,
+                { headers: {'Accept-Language':'en'} }
               );
               const data = await res.json();
               const addr = data.address || {};
-              const city  = addr.city || addr.town || addr.village || addr.suburb || addr.county || 'Nearby';
+              const city  = addr.city || addr.town || addr.village || addr.suburb || addr.county || 'Your Area';
               const state = addr.state_code || addr.state || '';
               const label = state ? `${city}, ${state}` : city;
-              const loc = { label, latitude, longitude };
+              const loc = { label, latitude: lat, longitude: lon };
               localStorage.setItem(LOC_KEY, JSON.stringify(loc));
+              currentLoc = loc;
               applyLocation(loc);
-            } catch (e) { console.warn('Reverse geocode failed', e); }
+              fetchNearby('', 'all');
+            } catch(e) { console.warn('Geocode error', e); }
+            if (onDone) onDone();
           },
-          (err) => { console.warn('Geolocation denied:', err.message); },
-          { timeout: 8000, maximumAge: 300000 }
+          (err) => { console.warn('GPS denied:', err.message); if(onDone) onDone(); },
+          { timeout: 10000, maximumAge: 300000 }
         );
       }
 
+      /* â”€â”€ Update UI with location â”€â”€ */
       function applyLocation(loc) {
-        const locInput = document.getElementById('locationInput');
-        if (locInput) locInput.value = loc.label;
-
-        const pill = document.getElementById('nearPill');
-        const citySpan = document.getElementById('nearCity');
-        if (pill && citySpan) {
-          citySpan.textContent = `Near ${loc.label}`;
-          pill.classList.add('show');
-        }
+        const li = document.getElementById('locationInput');
+        if (li) { li.value = loc.label; li.placeholder = 'City or area'; }
+        const pill = document.getElementById('nearPill'), cs = document.getElementById('nearCity');
+        if (pill && cs) { cs.textContent = `Near ${loc.label}`; pill.classList.add('show'); }
         const badge = document.querySelector('.hero-badge span:last-child');
-        if (badge && badge.textContent.includes('nationwide')) {
-          badge.textContent = `Listings near ${loc.label}`;
+        if (badge && badge.textContent.includes('nationwide')) badge.textContent = `Listings near ${loc.label}`;
+      }
+
+      /* â”€â”€ Fetch real nearby places from Overpass API â”€â”€ */
+      async function fetchNearby(keyword, category) {
+        if (!currentLoc) return;
+        const { latitude: lat, longitude: lon } = currentLoc;
+        const section = document.getElementById('nearbySection');
+        const grid    = document.getElementById('nearbyGrid');
+        section.classList.add('show');
+        grid.innerHTML = Array(8).fill('<div class="nearby-skeleton"></div>').join('');
+
+        const kw = (keyword || '').trim().toLowerCase();
+
+        // Build Overpass query â€” search for named places near user
+        let filter = kw
+          ? `["name"~"${kw}",i]`
+          : '["name"]["amenity"]';
+
+        const catFilters = {
+          jobs:      '["office"]',
+          housing:   '["building"~"apartment|house|residential"]',
+          forsale:   '["shop"]',
+          services:  '["amenity"]',
+          community: '["leisure"]',
+          gigs:      '["amenity"]'
+        };
+        if (!kw && category !== 'all' && catFilters[category]) filter = catFilters[category];
+
+        const q = `[out:json][timeout:20];(node${filter}(around:5000,${lat},${lon});way${filter}(around:5000,${lat},${lon}););out body 50;`;
+
+        try {
+          const res   = await fetch(`https://overpass-api.de/api/interpreter?data=${encodeURIComponent(q)}`);
+          const data  = await res.json();
+          const items = (data.elements || []).filter(e => e.tags && e.tags.name);
+
+          const results = items.map(e => {
+            const elat = e.lat || (e.center && e.center.lat) || lat;
+            const elon = e.lon || (e.center && e.center.lon) || lon;
+            return { ...e, _dist: distKm(lat, lon, elat, elon), _lat: elat, _lon: elon };
+          }).sort((a,b) => a._dist - b._dist).slice(0, 24);
+
+          renderNearby(results, keyword, category);
+        } catch(err) {
+          grid.innerHTML = `<div class="nearby-empty">âš ï¸ Could not load nearby places. Please check your internet connection.</div>`;
         }
       }
+      window.fetchNearby = fetchNearby;
+
+      /* â”€â”€ Render result cards â”€â”€ */
+      function renderNearby(results, keyword, category) {
+        const grid  = document.getElementById('nearbyGrid');
+        const title = document.getElementById('nearbyTitle');
+        const count = document.getElementById('nearbyCount');
+
+        const label = keyword || (category !== 'all' ? category : 'Places');
+        title.textContent = `${label.charAt(0).toUpperCase() + label.slice(1)} Near You`;
+
+        if (!results.length) {
+          grid.innerHTML = `<div class="nearby-empty">ðŸ˜• No results found within 5km. Try a different search.</div>`;
+          count.textContent = '';
+          return;
+        }
+        count.textContent = `${results.length} results within 5km`;
+
+        grid.innerHTML = results.map(item => {
+          const tags = item.tags || {};
+          const name = tags.name || 'Unknown Place';
+          const type = tags.amenity || tags.shop || tags.tourism || tags.leisure || tags.office || 'place';
+          const addr = [tags['addr:housenumber'], tags['addr:street']].filter(Boolean).join(' ')
+                       || tags['addr:full'] || tags['addr:suburb'] || '';
+          const emoji   = AMENITY_EMOJI[type] || 'ðŸ“';
+          const dist    = fmtDist(item._dist);
+          const mapsUrl = `https://www.google.com/maps/search/?api=1&query=${item._lat},${item._lon}&query_place_id=${encodeURIComponent(name)}`;
+          return `
+            <a class="nearby-card" href="${mapsUrl}" target="_blank" rel="noopener noreferrer">
+              <div class="nc-top">
+                <div class="nc-icon">${emoji}</div>
+                <div style="flex:1;min-width:0;">
+                  <div class="nc-name">${name}</div>
+                  <div class="nc-type">${type.replace(/_/g,' ')}</div>
+                </div>
+                <div class="nc-dist">${dist}</div>
+              </div>
+              ${addr ? `<div class="nc-addr">ðŸ“ ${addr}</div>` : ''}
+            </a>`;
+        }).join('');
+      }
+
+      /* â”€â”€ Hook up search button â”€â”€ */
+      window.doSearch = () => {
+        const kw  = (document.getElementById('searchInput')?.value || '').trim();
+        const cat = document.getElementById('searchCategory')?.value || 'all';
+        if (currentLoc) {
+          fetchNearby(kw, cat);
+          setTimeout(() => document.getElementById('nearbySection')?.scrollIntoView({ behavior:'smooth', block:'start' }), 100);
+        }
+      };
+
+      window.fillSearch = (term) => {
+        const inp = document.getElementById('searchInput');
+        if (inp) inp.value = term;
+        if (currentLoc) fetchNearby(term, 'all');
+        else             document.getElementById('searchInput')?.focus();
+      };
     </script>
 
 </body>
-
 </html>
