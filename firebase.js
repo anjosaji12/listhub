@@ -26,13 +26,13 @@ import { getAnalytics } from "https://www.gstatic.com/firebasejs/10.11.0/firebas
 
 // ── Firebase Config ──────────────────────────
 const firebaseConfig = {
-    apiKey: "AIzaSyC3V1a9DbWJ36cI9bQGMh_JRHILOQHInmQ",
+    apiKey: "AIzaSyC3V1a9DbWJ36cI9bQGMh_JRHILOQhInmQ",
     authDomain: "listhub-683b2.firebaseapp.com",
     projectId: "listhub-683b2",
     storageBucket: "listhub-683b2.firebasestorage.app",
-    messagingSenderId: "125633190822",
-    appId: "1:125633190822:web:715769741c88820c756911",
-    measurementId: "G-FDRNQ6Y688"
+    messagingSenderId: "59285647650",
+    appId: "1:59285647650:web:1adfe547ea4002ef4eb57b",
+    measurementId: "G-M8HPL8Q0R3"
 };
 
 // ── Init ─────────────────────────────────────
