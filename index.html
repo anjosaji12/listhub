@@ -148,6 +148,135 @@
         .pd-logout:hover {
             background: rgba(239, 68, 68, 0.08) !important;
         }
+
+        /* ── Location Banner ── */
+        .loc-banner {
+            position: fixed;
+            top: 68px;
+            left: 0;
+            right: 0;
+            z-index: 990;
+            background: linear-gradient(90deg, rgba(16, 185, 129, 0.12), rgba(52, 211, 153, 0.08));
+            border-bottom: 1px solid rgba(16, 185, 129, 0.2);
+            backdrop-filter: blur(12px);
+            padding: 10px 24px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+            transform: translateY(-100%);
+            opacity: 0;
+            transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        .loc-banner.show {
+            transform: translateY(0);
+            opacity: 1;
+        }
+
+        .loc-banner-left {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .loc-pulse {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: #10B981;
+            box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.5);
+            animation: locPulse 2s infinite;
+        }
+
+        @keyframes locPulse {
+            0% {
+                box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.5);
+            }
+
+            70% {
+                box-shadow: 0 0 0 8px rgba(16, 185, 129, 0);
+            }
+
+            100% {
+                box-shadow: 0 0 0 0 rgba(16, 185, 129, 0);
+            }
+        }
+
+        .loc-banner-text {
+            font-size: 13px;
+            color: #7FA99A;
+        }
+
+        .loc-banner-text strong {
+            color: #E8F4F0;
+        }
+
+        .loc-allow-btn {
+            padding: 7px 18px;
+            background: linear-gradient(135deg, #10B981, #34D399);
+            color: #040D08;
+            border: none;
+            border-radius: 100px;
+            font-size: 12px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.2s;
+            white-space: nowrap;
+            font-family: var(--font);
+        }
+
+        .loc-allow-btn:hover {
+            transform: scale(1.04);
+        }
+
+        .loc-deny-btn {
+            background: none;
+            border: none;
+            color: #4A6B60;
+            font-size: 12px;
+            cursor: pointer;
+            padding: 4px 8px;
+            font-family: var(--font);
+            transition: color 0.2s;
+        }
+
+        .loc-deny-btn:hover {
+            color: #7FA99A;
+        }
+
+        /* ── Near pill in hero ── */
+        .near-pill {
+            display: none;
+            align-items: center;
+            gap: 6px;
+            background: rgba(16, 185, 129, 0.1);
+            border: 1px solid rgba(16, 185, 129, 0.25);
+            color: #10B981;
+            font-size: 12px;
+            font-weight: 600;
+            padding: 4px 14px;
+            border-radius: 100px;
+            margin-bottom: 14px;
+            width: fit-content;
+        }
+
+        .near-pill.show {
+            display: flex;
+            animation: fadeUp 0.4s ease;
+        }
+
+        @keyframes fadeUp {
+            from {
+                opacity: 0;
+                transform: translateY(8px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
     </style>
 </head>
 
@@ -202,6 +331,18 @@
         </div>
     </nav>
 
+    <!-- ─── LOCATION BANNER ─── -->
+    <div class="loc-banner" id="locBanner">
+        <div class="loc-banner-left">
+            <div class="loc-pulse"></div>
+            <span class="loc-banner-text">📍 <strong>Allow location access</strong> to see listings near you</span>
+        </div>
+        <div style="display:flex;align-items:center;gap:8px;">
+            <button class="loc-allow-btn" onclick="requestLocation()">📍 Use My Location</button>
+            <button class="loc-deny-btn" onclick="dismissLocBanner()">Not now</button>
+        </div>
+    </div>
+
     <!-- ─── HERO ─── -->
     <section class="hero">
         <div class="hero-bg">
@@ -210,6 +351,9 @@
             <div class="blob blob-3"></div>
         </div>
         <div class="hero-inner">
+            <!-- Near pill (shown after location detected) -->
+            <div class="near-pill" id="nearPill">📍 <span id="nearCity"></span></div>
+
             <div class="hero-badge">
                 <span class="badge-dot"></span>
                 <span>2.4M+ listings nationwide</span>
@@ -607,63 +751,124 @@
         </div>
     </div>
 
+
     <script src="app.js"></script>
     <script type="module">
-        import { onAuthChange, logOut } from './firebase.js';
+      import { onAuthChange, logOut } from './firebase.js';
 
-        function getInitial(name, email) {
-            if (name && name.trim()) return name.trim()[0].toUpperCase();
-            if (email) return email[0].toUpperCase();
-            return 'U';
+      function getInitial(name, email) {
+        if (name && name.trim()) return name.trim()[0].toUpperCase();
+        if (email) return email[0].toUpperCase();
+        return 'U';
+      }
+
+      onAuthChange((user) => {
+        const loginBtn  = document.getElementById('navLogin');
+        const signupBtn = document.getElementById('navSignup');
+        const profile   = document.getElementById('navProfile');
+        if (user) {
+          if (loginBtn)  loginBtn.style.display  = 'none';
+          if (signupBtn) signupBtn.style.display = 'none';
+          profile.style.display = 'flex';
+          const name = user.displayName || '';
+          const email = user.email || '';
+          const initial = getInitial(name, email);
+          const displayName = name || email.split('@')[0];
+          document.getElementById('navAvatar').textContent = initial;
+          document.getElementById('navName').textContent   = displayName.length > 14 ? displayName.slice(0,14)+'...' : displayName;
+          document.getElementById('pdAvatar').textContent  = initial;
+          document.getElementById('pdName').textContent    = name || displayName;
+          document.getElementById('pdEmail').textContent   = email;
+        } else {
+          if (loginBtn)  loginBtn.style.display  = '';
+          if (signupBtn) signupBtn.style.display = '';
+          profile.style.display = 'none';
         }
+      });
 
-        onAuthChange((user) => {
-            const loginBtn = document.getElementById('navLogin');
-            const signupBtn = document.getElementById('navSignup');
-            const profile = document.getElementById('navProfile');
+      window.toggleProfileMenu = () => {
+        document.getElementById('profileDropdown').classList.toggle('open');
+      };
+      window.doLogout = async () => {
+        await logOut();
+        document.getElementById('profileDropdown').classList.remove('open');
+      };
+      document.addEventListener('click', (e) => {
+        const profile = document.getElementById('navProfile');
+        if (profile && !profile.contains(e.target)) {
+          const dd = document.getElementById('profileDropdown');
+          if (dd) dd.classList.remove('open');
+        }
+      });
 
-            if (user) {
-                // Logged in — hide login/signup, show profile
-                if (loginBtn) loginBtn.style.display = 'none';
-                if (signupBtn) signupBtn.style.display = 'none';
-                profile.style.display = 'flex';
+      /* =========================================
+         GEOLOCATION
+      ========================================= */
+      const LOC_KEY       = 'lh_location';
+      const LOC_DISMISSED = 'lh_loc_dismissed';
 
-                const name = user.displayName || '';
-                const email = user.email || '';
-                const initial = getInitial(name, email);
-                const displayName = name || email.split('@')[0];
+      window.addEventListener('DOMContentLoaded', async () => {
+        if (localStorage.getItem(LOC_DISMISSED)) return;
+        const cached = localStorage.getItem(LOC_KEY);
+        if (cached) { applyLocation(JSON.parse(cached)); return; }
+        if ('permissions' in navigator) {
+          const perm = await navigator.permissions.query({ name: 'geolocation' });
+          if (perm.state === 'granted') { detectLocation(); return; }
+        }
+        setTimeout(() => { document.getElementById('locBanner').classList.add('show'); }, 1500);
+      });
 
-                document.getElementById('navAvatar').textContent = initial;
-                document.getElementById('navName').textContent = displayName.length > 14 ? displayName.slice(0, 14) + '…' : displayName;
-                document.getElementById('pdAvatar').textContent = initial;
-                document.getElementById('pdName').textContent = name || displayName;
-                document.getElementById('pdEmail').textContent = email;
-            } else {
-                // Logged out — show login/signup, hide profile
-                if (loginBtn) loginBtn.style.display = '';
-                if (signupBtn) signupBtn.style.display = '';
-                profile.style.display = 'none';
-            }
-        });
+      window.requestLocation = () => {
+        document.getElementById('locBanner').classList.remove('show');
+        detectLocation();
+      };
+      window.dismissLocBanner = () => {
+        document.getElementById('locBanner').classList.remove('show');
+        localStorage.setItem(LOC_DISMISSED, '1');
+      };
 
-        window.toggleProfileMenu = () => {
-            document.getElementById('profileDropdown').classList.toggle('open');
-        };
+      function detectLocation() {
+        if (!navigator.geolocation) return;
+        navigator.geolocation.getCurrentPosition(
+          async (pos) => {
+            const { latitude, longitude } = pos.coords;
+            try {
+              const res  = await fetch(
+                `https://nominatim.openstreetmap.org/reverse?lat=${latitude}&lon=${longitude}&format=json`,
+                { headers: { 'Accept-Language': 'en' } }
+              );
+              const data = await res.json();
+              const addr = data.address || {};
+              const city  = addr.city || addr.town || addr.village || addr.suburb || addr.county || 'Nearby';
+              const state = addr.state_code || addr.state || '';
+              const label = state ? `${city}, ${state}` : city;
+              const loc = { label, latitude, longitude };
+              localStorage.setItem(LOC_KEY, JSON.stringify(loc));
+              applyLocation(loc);
+            } catch (e) { console.warn('Reverse geocode failed', e); }
+          },
+          (err) => { console.warn('Geolocation denied:', err.message); },
+          { timeout: 8000, maximumAge: 300000 }
+        );
+      }
 
-        window.doLogout = async () => {
-            await logOut();
-            document.getElementById('profileDropdown').classList.remove('open');
-        };
+      function applyLocation(loc) {
+        const locInput = document.getElementById('locationInput');
+        if (locInput) locInput.value = loc.label;
 
-        // Close dropdown when clicking outside
-        document.addEventListener('click', (e) => {
-            const profile = document.getElementById('navProfile');
-            if (profile && !profile.contains(e.target)) {
-                const dd = document.getElementById('profileDropdown');
-                if (dd) dd.classList.remove('open');
-            }
-        });
+        const pill = document.getElementById('nearPill');
+        const citySpan = document.getElementById('nearCity');
+        if (pill && citySpan) {
+          citySpan.textContent = `Near ${loc.label}`;
+          pill.classList.add('show');
+        }
+        const badge = document.querySelector('.hero-badge span:last-child');
+        if (badge && badge.textContent.includes('nationwide')) {
+          badge.textContent = `Listings near ${loc.label}`;
+        }
+      }
     </script>
+
 </body>
 
 </html>
