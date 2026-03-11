@@ -402,11 +402,24 @@
             <div class="card-header">Change Password</div>
             <div class="card-body">
 
+                <!-- Step 1: Current password -->
+                <div class="field">
+                    <label for="currentPass">Current Password</label>
+                    <div class="input-wrap" id="wrap-currentPass">
+                        <input type="password" id="currentPass" placeholder="Enter your current password"
+                            autocomplete="current-password" />
+                        <button class="eye-btn" onclick="toggleEye('currentPass','ec1o','ec1c')" type="button">
+                            <span id="ec1o">👁</span><span id="ec1c" style="display:none">🙈</span>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Step 2: New password -->
                 <div class="field">
                     <label for="newPass">New Password</label>
                     <div class="input-wrap">
                         <input type="password" id="newPass" placeholder="Min. 8 characters"
-                            oninput="checkPassStrength(this.value)" />
+                            oninput="checkPassStrength(this.value)" autocomplete="new-password" />
                         <button class="eye-btn" onclick="toggleEye('newPass','e1o','e1c')" type="button">
                             <span id="e1o">👁</span><span id="e1c" style="display:none">🙈</span>
                         </button>
@@ -428,7 +441,8 @@
                 <div class="field">
                     <label for="confirmPass">Confirm New Password</label>
                     <div class="input-wrap">
-                        <input type="password" id="confirmPass" placeholder="Re-enter new password" />
+                        <input type="password" id="confirmPass" placeholder="Re-enter new password"
+                            autocomplete="new-password" />
                         <button class="eye-btn" onclick="toggleEye('confirmPass','e2o','e2c')" type="button">
                             <span id="e2o">👁</span><span id="e2c" style="display:none">🙈</span>
                         </button>
@@ -450,7 +464,7 @@
 
     <script type="module">
         import { auth, db, onAuthChange, logOut } from './firebase.js';
-        import { updateProfile, updatePassword } from 'https://www.gstatic.com/firebasejs/10.11.0/firebase-auth.js';
+        import { updateProfile, updatePassword, reauthenticateWithCredential, EmailAuthProvider } from 'https://www.gstatic.com/firebasejs/10.11.0/firebase-auth.js';
         import { doc, getDoc, setDoc, serverTimestamp } from 'https://www.gstatic.com/firebasejs/10.11.0/firebase-firestore.js';
 
         /* ── Redirect if not logged in ── */
@@ -508,27 +522,43 @@
             }
         };
 
-        /* ── Save password ── */
+        /* ── Save password (with re-auth) ── */
         window.savePassword = async () => {
             const user = auth.currentUser;
             if (!user) return;
+
+            const current = document.getElementById('currentPass').value;
             const np = document.getElementById('newPass').value;
             const cp = document.getElementById('confirmPass').value;
-            if (np.length < 8) { showToast('Password must be at least 8 characters.', true); return; }
-            if (np !== cp) { showToast('Passwords do not match.', true); return; }
+
+            if (!current) { showToast('Please enter your current password.', true); return; }
+            if (np.length < 8) { showToast('New password must be at least 8 characters.', true); return; }
+            if (np !== cp) { showToast('New passwords do not match.', true); return; }
+            if (np === current) { showToast('New password must be different from current.', true); return; }
 
             setLoading('savePassBtn', 'passSpin', 'passText', true);
             try {
+                // Re-authenticate with current password first
+                const credential = EmailAuthProvider.credential(user.email, current);
+                await reauthenticateWithCredential(user, credential);
+
+                // Now safe to update
                 await updatePassword(user, np);
+
+                // Clear all fields
+                document.getElementById('currentPass').value = '';
                 document.getElementById('newPass').value = '';
                 document.getElementById('confirmPass').value = '';
                 ['ps1', 'ps2', 'ps3', 'ps4'].forEach(id => document.getElementById(id).style.background = 'rgba(255,255,255,0.07)');
                 document.getElementById('psLabel').textContent = '';
-                showToast('✓ Password updated!');
+                showToast('✓ Password updated successfully!');
             } catch (err) {
                 const msgs = {
-                    'auth/requires-recent-login': 'Please log out and log back in before changing your password.',
-                    'auth/weak-password': 'Password is too weak.'
+                    'auth/wrong-password': '✗ Current password is incorrect.',
+                    'auth/invalid-credential': '✗ Current password is incorrect.',
+                    'auth/too-many-requests': 'Too many attempts. Please wait a moment.',
+                    'auth/weak-password': 'New password is too weak.',
+                    'auth/requires-recent-login': 'Please log out and log back in, then try again.'
                 };
                 showToast(msgs[err.code] || err.message, true);
             } finally {
