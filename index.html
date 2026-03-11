@@ -13,6 +13,142 @@
         href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Outfit:wght@400;500;600;700;800&display=swap"
         rel="stylesheet" />
     <link rel="stylesheet" href="styles.css" />
+    <style>
+        .nav-avatar-btn {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            background: rgba(16, 185, 129, 0.1);
+            border: 1px solid rgba(16, 185, 129, 0.25);
+            border-radius: 100px;
+            padding: 5px 14px 5px 5px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .nav-avatar-btn:hover {
+            background: rgba(16, 185, 129, 0.18);
+            border-color: rgba(16, 185, 129, 0.5);
+        }
+
+        .nav-avatar {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #10B981, #34D399);
+            color: #040D08;
+            font-weight: 800;
+            font-size: 13px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .nav-user-name {
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--text);
+        }
+
+        .profile-dropdown {
+            display: none;
+            position: absolute;
+            top: calc(100% + 10px);
+            right: 0;
+            background: #162030;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 16px;
+            padding: 8px;
+            min-width: 220px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.6);
+            z-index: 1000;
+            animation: dropIn 0.2s ease;
+        }
+
+        .profile-dropdown.open {
+            display: block;
+        }
+
+        @keyframes dropIn {
+            from {
+                opacity: 0;
+                transform: translateY(-8px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .pd-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 10px 10px 14px;
+        }
+
+        .pd-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #10B981, #34D399);
+            color: #040D08;
+            font-weight: 800;
+            font-size: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+
+        .pd-name {
+            font-weight: 700;
+            font-size: 14px;
+            color: var(--text);
+        }
+
+        .pd-email {
+            font-size: 12px;
+            color: var(--text-muted);
+            margin-top: 2px;
+        }
+
+        .pd-divider {
+            height: 1px;
+            background: rgba(255, 255, 255, 0.07);
+            margin: 4px 0;
+        }
+
+        .pd-item {
+            display: block;
+            width: 100%;
+            text-align: left;
+            padding: 10px 12px;
+            border-radius: 10px;
+            font-size: 13px;
+            color: var(--text-muted);
+            background: none;
+            border: none;
+            cursor: pointer;
+            text-decoration: none;
+            transition: all 0.15s;
+            font-family: var(--font);
+        }
+
+        .pd-item:hover {
+            background: rgba(16, 185, 129, 0.08);
+            color: var(--text);
+        }
+
+        .pd-logout {
+            color: #EF4444 !important;
+        }
+
+        .pd-logout:hover {
+            background: rgba(239, 68, 68, 0.08) !important;
+        }
+    </style>
 </head>
 
 <body>
@@ -29,8 +165,32 @@
                 <a href="#" class="nav-link">Community</a>
                 <a href="#" class="nav-link">About</a>
             </div>
-            <div class="nav-actions">
-                <a href="login.html" class="btn-ghost">Log In</a>
+            <div class="nav-actions" id="navActions">
+                <!-- filled by auth listener -->
+                <a href="login.html" class="btn-ghost" id="navLogin">Log In</a>
+                <a href="signup.html" class="btn-primary" id="navSignup">Sign Up Free</a>
+                <!-- profile (hidden until logged in) -->
+                <div class="nav-profile" id="navProfile" style="display:none;position:relative;">
+                    <button class="nav-avatar-btn" id="avatarBtn" onclick="toggleProfileMenu()">
+                        <div class="nav-avatar" id="navAvatar">U</div>
+                        <span class="nav-user-name" id="navName">User</span>
+                        <span style="font-size:10px;color:var(--text-muted);">▾</span>
+                    </button>
+                    <div class="profile-dropdown" id="profileDropdown">
+                        <div class="pd-header">
+                            <div class="pd-avatar" id="pdAvatar">U</div>
+                            <div>
+                                <div class="pd-name" id="pdName">User</div>
+                                <div class="pd-email" id="pdEmail"></div>
+                            </div>
+                        </div>
+                        <div class="pd-divider"></div>
+                        <a href="#" class="pd-item">👤 My Profile</a>
+                        <a href="#" class="pd-item">📋 My Listings</a>
+                        <div class="pd-divider"></div>
+                        <button class="pd-item pd-logout" onclick="doLogout()">🚪 Log Out</button>
+                    </div>
+                </div>
             </div>
             <button class="hamburger" id="hamburger" aria-label="Menu">
                 <span></span><span></span><span></span>
@@ -449,6 +609,62 @@
     </div>
 
     <script src="app.js"></script>
+    <script type="module">
+        import { onAuthChange, logOut } from './firebase.js';
+
+        function getInitial(name, email) {
+            if (name && name.trim()) return name.trim()[0].toUpperCase();
+            if (email) return email[0].toUpperCase();
+            return 'U';
+        }
+
+        onAuthChange((user) => {
+            const loginBtn = document.getElementById('navLogin');
+            const signupBtn = document.getElementById('navSignup');
+            const profile = document.getElementById('navProfile');
+
+            if (user) {
+                // Logged in — hide login/signup, show profile
+                if (loginBtn) loginBtn.style.display = 'none';
+                if (signupBtn) signupBtn.style.display = 'none';
+                profile.style.display = 'flex';
+
+                const name = user.displayName || '';
+                const email = user.email || '';
+                const initial = getInitial(name, email);
+                const displayName = name || email.split('@')[0];
+
+                document.getElementById('navAvatar').textContent = initial;
+                document.getElementById('navName').textContent = displayName.length > 14 ? displayName.slice(0, 14) + '…' : displayName;
+                document.getElementById('pdAvatar').textContent = initial;
+                document.getElementById('pdName').textContent = name || displayName;
+                document.getElementById('pdEmail').textContent = email;
+            } else {
+                // Logged out — show login/signup, hide profile
+                if (loginBtn) loginBtn.style.display = '';
+                if (signupBtn) signupBtn.style.display = '';
+                profile.style.display = 'none';
+            }
+        });
+
+        window.toggleProfileMenu = () => {
+            document.getElementById('profileDropdown').classList.toggle('open');
+        };
+
+        window.doLogout = async () => {
+            await logOut();
+            document.getElementById('profileDropdown').classList.remove('open');
+        };
+
+        // Close dropdown when clicking outside
+        document.addEventListener('click', (e) => {
+            const profile = document.getElementById('navProfile');
+            if (profile && !profile.contains(e.target)) {
+                const dd = document.getElementById('profileDropdown');
+                if (dd) dd.classList.remove('open');
+            }
+        });
+    </script>
 </body>
 
 </html>
